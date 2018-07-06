@@ -31,13 +31,7 @@ public class EmployeeDaoImp implements EmployeeDao {
             e.printStackTrace();
         }
         finally {
-            try {
-                resultSet.getStatement().getConnection().close();
-            } catch (SQLException e) {
-                System.out.println("Couldn't close the connection");
-                e.printStackTrace();
-            }
-
+            baseDao.closeQuery(resultSet);
         }
         return employeeList;
     }

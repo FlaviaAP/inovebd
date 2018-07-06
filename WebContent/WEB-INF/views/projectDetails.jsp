@@ -12,7 +12,26 @@
 </head>
 <body>
     <h1>${project.name}:</h1>
-    <p>Client: </p>
+
+
+    <!-- here will be all the tasks-->
+    <h2>Client</h2>
+    <ul>
+        <li>
+            Name: ${client.name}
+        </li>
+        <li>
+            <c:choose>
+                <c:when test='${client.type.compareToIgnoreCase("J") != 0}'>
+                    CPF:
+                </c:when>
+                <c:otherwise>
+                    CNPJ:
+                </c:otherwise>
+            </c:choose>
+            ${client.CNPJCPF}
+        </li>
+    </ul>
 
 </body>
 </html>

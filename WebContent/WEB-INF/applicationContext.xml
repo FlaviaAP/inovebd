@@ -22,6 +22,14 @@
         <property name="projectDao" ref="projectDao"/>
     </bean>
 
+    <bean id="clientDao" class="com.i9.daos.impls.ClientDaoImp">
+        <property name="baseDao" ref="baseDao"/>
+    </bean>
+
+    <bean id="clientService" class="com.i9.services.impls.ClientServiceImp">
+        <property name="clientDao" ref="clientDao"/>
+    </bean>
+
     <bean id="employeeDao" class="com.i9.daos.impls.EmployeeDaoImp">
         <property name="baseDao" ref="baseDao"/>
     </bean>

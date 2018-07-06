@@ -1,8 +1,8 @@
 package com.i9.daos.impls;
 
 import com.i9.daos.BaseDao;
-import com.i9.daos.ProjectDao;
-import com.i9.models.Project;
+import com.i9.daos.ClientDao;
+import com.i9.models.Client;
 import org.springframework.beans.factory.annotation.Required;
 
 import java.sql.ResultSet;
@@ -10,43 +10,44 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProjectDaoImp implements ProjectDao {
+public class ClientDaoImp implements ClientDao {
 
     private BaseDao baseDao;
 
     @Override
-    public List<Project> getAll() {
-        List<Project> projectList = new ArrayList<>();
+    public List<Client> getAll() {
+        List<Client> clientList = new ArrayList<>();
         ResultSet resultSet = null;
         try{
-            resultSet = baseDao.searchQuery("SELECT * FROM project");
+            resultSet = baseDao.searchQuery("SELECT * FROM client");
             while(resultSet.next()){
-                String name = resultSet.getString("name");
                 String CNPJCPF = resultSet.getString("CNPJCPF");
-                int id = resultSet.getInt("id");
-                Project project = new Project(id, name, CNPJCPF);
-                projectList.add(project);
+                String name = resultSet.getString("name");
+                String type = resultSet.getString("type");
+                Client client = new Client(CNPJCPF, name, type);
+                clientList.add(client);
             }
         }catch (SQLException e){
-            System.out.println("Error while searching on project Table");
+            System.out.println("Error while searching on employee Table");
             e.printStackTrace();
         }
         finally {
             baseDao.closeQuery(resultSet);
+
         }
-        return projectList;
+        return clientList;
     }
 
     @Override
-    public Project getProject(int id) {
-        Project project = new Project();
+    public Client getClient(String CNPJCPF) {
+        Client client = new Client();
         ResultSet resultSet = null;
         try {
-            resultSet = baseDao.searchQuery("SELECT * FROM project AS x WHERE x.id = " + String.valueOf(id) + ";");
+            resultSet = baseDao.searchQuery("SELECT * FROM client AS x WHERE x.CNPJCPF = '" + CNPJCPF + "';");
             resultSet.next();
-            project.setName(resultSet.getString("name"));
-            project.setCNPJCPF(resultSet.getString("CNPJCPF"));
-            project.setId(id);
+            client.setName(resultSet.getString("name"));
+            client.setCNPJCPF(CNPJCPF);
+            client.setType(resultSet.getString("type"));
         } catch (SQLException e){
             System.out.println("Error while searching on project Table");
             e.printStackTrace();
@@ -55,21 +56,21 @@ public class ProjectDaoImp implements ProjectDao {
             baseDao.closeQuery(resultSet);
         }
 
-        return project;
+        return client;
     }
 
     @Override
-    public boolean save(Project object) {
+    public boolean save(Client object) {
         return false;
     }
 
     @Override
-    public boolean delete(Project object) {
+    public boolean delete(Client object) {
         return false;
     }
 
     @Override
-    public boolean update(Project object) {
+    public boolean update(Client object) {
         return false;
     }
 
@@ -77,4 +78,5 @@ public class ProjectDaoImp implements ProjectDao {
     public void setBaseDao(BaseDao baseDao) {
         this.baseDao = baseDao;
     }
+
 }

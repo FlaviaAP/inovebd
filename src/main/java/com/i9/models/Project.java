@@ -8,6 +8,14 @@ public class Project {
 
     private String CNPJCPF;
 
+    public Project(int id, String name, String CNPJCPF) {
+        this.id = id;
+        this.name = name;
+        this.CNPJCPF = CNPJCPF;
+    }
+
+    public Project() {}
+
     public int getId() {
         return id;
     }
@@ -28,7 +36,7 @@ public class Project {
         return CNPJCPF;
     }
 
-    public void setCNPJCPF(String clientId) {
+    public void setCNPJCPF(String CNPJCPF) {
         this.CNPJCPF = CNPJCPF;
     }
 }
