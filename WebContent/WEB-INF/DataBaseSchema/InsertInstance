@@ -1,0 +1,3 @@
+INSERT INTO client (type, name, CNPJCPF) VALUES ('J', 'Unimed', '2-1-3-4');
+INSERT INTO project (id, name, CNPJCPF) VALUES (1, 'Health', '2-1-3-4');
+INSERT INTO project (id, name, CNPJCPF) VALUES (2, 'Be strong', '2-1-3-4');

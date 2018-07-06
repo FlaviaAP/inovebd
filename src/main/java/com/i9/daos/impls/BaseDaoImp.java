@@ -59,4 +59,13 @@ public class BaseDaoImp implements BaseDao {
             e.printStackTrace();
         }
     }
+
+    public void closeQuery(ResultSet resultSet){
+        try {
+            resultSet.getStatement().getConnection().close();
+        } catch (SQLException e) {
+            System.out.println("Couldn't close the connection");
+            e.printStackTrace();
+        }
+    }
 }

@@ -8,24 +8,17 @@
 <!DOCTYPE html >
 <html>
 <head>
-    <title>Empregados</title>
+    <title>Home</title>
 </head>
 <body>
-
-    <div>
-        <table>
-            <thead>
-            <th>Nome</th>
-            <th>Idade</th>
-            </thead>
-        <c:forEach var="empregado" items="${empregados}">
-            <tr>
-                <td>${empregado.name}</td>
-                <td>${empregado.age}</td>
-            </tr>
+    <h1>i9 Project Manager</h1>
+    <ul>
+        <c:forEach var="project" items="${projects}">
+            <li>
+                <a href="project/details?projectId=${project.id}">${project.name}<a/>
+            </li>
         </c:forEach>
-        </table>
-    </div>
+    </ul>
 
 </body>
 </html>

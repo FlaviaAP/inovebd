@@ -8,4 +8,6 @@ public interface BaseDao {
     void transactionQuery(String sql) throws SQLException;
 
     ResultSet searchQuery(String sql) throws SQLException;
+
+    public void closeQuery(ResultSet resultSet);
 }

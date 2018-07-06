@@ -1,7 +1,0 @@
--- auto-generated definition
-create table func2
-(
-  func int         not null,
-  x    varchar(90) not null
-);
-
