@@ -1,3 +1,5 @@
+USE mysql;
+
 create table Client(
   CNPJCPF varchar (15) not null,
   name varchar (90) not null,
@@ -15,18 +17,15 @@ create table Project(
 );
 
 
-create table Fase(
-  number int not null,
-  observation varchar(900),
-  endDate date not null,
-  hourEstimation int not null,
-  dayEstimation int not null,
-  dateForecastWithMargin date not null,
-  employeePerFase int not null,
-  hoursPerDay int not null,
+create table Phase(
   id int not null,
   projectId int not null,
-  primary key (id,projectId),
+  number int not null,
+  observation varchar(900),
+  endDate date,
+  hourEstimation int,
+  dateForecastWithMargin date,
+  primary key (id),
   unique key number (number, projectId),
   foreign key (projectId) references Project(id)
 );
@@ -50,7 +49,7 @@ create table Employee(
 create table Task(
   id int not null,
   name varchar(90) not null,
-  faseId int not null,
+  phaseId int not null,
   realHours int,
   realEndDate date,
   platform varchar(90) not null,
@@ -61,11 +60,20 @@ create table Task(
   status int,
   responsibleEmployee varchar (90) not null ,
   primary key (id),
-  unique key name(name,FaseId,Platform),
-  foreign key (faseId) references Fase(id),
+  unique key name(name,PhaseId,Platform),
+  foreign key (phaseId) references Phase(id),
   foreign key (platform) references Platform(name),
   foreign key (functionalityTag) references Functionality(functionalityTag),
   foreign key (responsibleEmployee) references Employee(name)
+);
+
+create table PhaseEmployee(
+  employeeName varchar(90) not null,
+  phaseId int not null,
+  hoursPerDay int not null,
+  primary key (employeeName,PhaseId),
+  foreign key (employeeName) references Employee(name),
+  foreign key (phaseId) references Phase(id)
 );
 
 create table EmployeeTask(

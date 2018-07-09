@@ -1,7 +1,8 @@
 package com.i9.models;
 
-public class Employee{
+import com.mysql.cj.conf.ConnectionUrlParser;
 
+public class Employee{
     private String name;
     private Integer workloadHours;
 

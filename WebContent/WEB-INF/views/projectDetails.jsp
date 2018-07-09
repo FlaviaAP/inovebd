@@ -11,10 +11,34 @@
     <title>${project.name} details</title>
 </head>
 <body>
-    <h1>${project.name}:</h1>
+    <h1>${project.name}</h1>
 
-
+    <h2>Tasks</h2>
     <!-- here will be all the tasks-->
+
+    <h2>Phase</h2>
+    <c:forEach var="phase" items="${phases}">
+        <h3>${phase.number}</h3>
+        <p>${phase.observation}</p>
+        <br>
+        <table>
+            <thead>
+                <tr>
+                    <th>Employee</th>
+                    <th>Hour/Day in this phase</th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:forEach var="employeeHoursPerDay" items="${phase.employeesHoursPerDay}">
+                    <tr>
+                        <td>${employeeHoursPerDay.employee.name}</td>
+                        <td>${employeeHoursPerDay.hoursPerDay}</td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
+    </c:forEach>
+
     <h2>Client Information</h2>
     <ul>
         <li>

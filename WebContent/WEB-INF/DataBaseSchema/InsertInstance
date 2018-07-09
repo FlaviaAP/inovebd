@@ -1,3 +1,8 @@
-INSERT INTO client (type, name, CNPJCPF) VALUES ('J', 'Unimed', '2-1-3-4');
-INSERT INTO project (id, name, CNPJCPF) VALUES (1, 'Health', '2-1-3-4');
-INSERT INTO project (id, name, CNPJCPF) VALUES (2, 'Be strong', '2-1-3-4');
+INSERT INTO Client (type, name, CNPJCPF) VALUES ('J', 'Unimed', '2-1-3-4');
+INSERT INTO Project (id, name, CNPJCPF) VALUES (1, 'Health', '2-1-3-4');
+INSERT INTO Project (id, name, CNPJCPF) VALUES (2, 'Be strong', '2-1-3-4');
+INSERT INTO Phase (id, projectId, number, observation, hourEstimation) VALUES (1234, 2, 1, 'Build the back-end', 30);
+INSERT INTO Employee (name, workloadHours) VALUES ('Jorge', 8);
+INSERT INTO Employee (name, workloadHours) VALUES ('Amanda', 6);
+INSERT INTO PhaseEmployee (employeeName, phaseId, hoursPerDay) VALUES ('Jorge', 1234, 6);
+INSERT INTO PhaseEmployee (employeeName, phaseId, hoursPerDay) VALUES ('Amanda', 1234, 4);

@@ -37,4 +37,18 @@
     <bean id="employeeService" class="com.i9.services.impls.EmployeeServiceImp">
         <property name="employeeDao" ref="employeeDao"/>
     </bean>
+
+    <bean id="employeeHoursPerDayDao" class="com.i9.daos.impls.EmployeeHoursPerDayDaoImp">
+        <property name="baseDao" ref="baseDao" />
+        <property name="employeeDao" ref="employeeDao" />
+    </bean>
+
+    <bean id="phaseDao" class="com.i9.daos.impls.PhaseDaoImp">
+        <property name="baseDao" ref="baseDao" />
+        <property name="employeeHoursPerDayDao" ref="employeeHoursPerDayDao" />
+    </bean>
+
+    <bean id="PhaseService" class="com.i9.services.impls.PhaseServiceImp">
+        <property name="phaseDao" ref="phaseDao" />
+    </bean>
 </beans>

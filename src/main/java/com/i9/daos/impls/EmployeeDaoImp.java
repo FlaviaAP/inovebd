@@ -37,6 +37,26 @@ public class EmployeeDaoImp implements EmployeeDao {
     }
 
     @Override
+    public Employee getEmployee(String name) {
+        Employee employee = new Employee();
+        ResultSet resultSet = null;
+        try {
+            resultSet = baseDao.searchQuery("SELECT * FROM Employee AS x WHERE x.name = '" + name + "';");
+            resultSet.next();
+            employee.setName(name);
+            employee.setWorkloadHours(resultSet.getInt("workloadHours"));
+        } catch (SQLException e){
+            System.out.println("Error while searching on project Table");
+            e.printStackTrace();
+        }
+        finally {
+            baseDao.closeQuery(resultSet);
+        }
+
+        return employee;
+    }
+
+    @Override
     public boolean save(Employee object) {
         return false;
     }
