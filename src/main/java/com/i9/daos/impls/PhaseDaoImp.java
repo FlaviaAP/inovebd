@@ -48,7 +48,7 @@ public class PhaseDaoImp implements PhaseDao{
 
     @Override
     public List<Phase> getPhaseByProject(int projectId) {
-        List<Phase> phases = new ArrayList<>();
+        List<Phase> phaseList = new ArrayList<>();
         ResultSet resultSet = null;
         try {
             resultSet = baseDao.searchQuery("SELECT * FROM Phase AS x WHERE x.projectId = " + String.valueOf(projectId) + ";");
@@ -66,7 +66,11 @@ public class PhaseDaoImp implements PhaseDao{
                 List<EmployeeHoursPerDay> employeesHoursPerDay = employeeHoursPerDayDao.getEmployeesHoursPerDayByPhase(id);
                 phase.setEmployeesHoursPerDay(employeesHoursPerDay);
 
-                phases.add(phase);
+                phase.calculateTotalHoursPerDay();
+                phase.calculateDayEstimation();
+                phase.calculateEndDatePrediction();
+
+                phaseList.add(phase);
             }
 
         } catch (SQLException e){
@@ -77,7 +81,7 @@ public class PhaseDaoImp implements PhaseDao{
             baseDao.closeQuery(resultSet);
         }
 
-        return phases;
+        return phaseList;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.i9.models;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -11,13 +12,13 @@ public class Phase {
     private Date initialDate;
     private Date endDate;
     private int hourEstimation;
-    private Date dateForecastWithMargin;
 
     private List<EmployeeHoursPerDay> employeesHoursPerDay;
 
     //these don't have at BD
-    private int hoursPerDay;
+    private int totalHoursPerDay;
     private int dayEstimation;
+    private Date endDatePrediction;
 
     public int getId() {
         return id;
@@ -83,20 +84,20 @@ public class Phase {
         this.dayEstimation = dayEstimation;
     }
 
-    public Date getDateForecastWithMargin() {
-        return dateForecastWithMargin;
+    public Date getEndDatePrediction() {
+        return endDatePrediction;
     }
 
-    public void setDateForecastWithMargin(Date dateForecastWithMargin) {
-        this.dateForecastWithMargin = dateForecastWithMargin;
+    public void setEndDatePrediction(Date endDatePrediction) {
+        this.endDatePrediction = endDatePrediction;
     }
 
-    public int getHoursPerDay() {
-        return hoursPerDay;
+    public int getTotalHoursPerDay() {
+        return totalHoursPerDay;
     }
 
-    public void setHoursPerDay(int hoursPerDay) {
-        this.hoursPerDay = hoursPerDay;
+    public void setTotalHoursPerDay(int totalHoursPerDay) {
+        this.totalHoursPerDay = totalHoursPerDay;
     }
 
     public List<EmployeeHoursPerDay> getEmployeesHoursPerDay() {
@@ -105,5 +106,26 @@ public class Phase {
 
     public void setEmployeesHoursPerDay(List<EmployeeHoursPerDay> employeesHoursPerDay) {
         this.employeesHoursPerDay = employeesHoursPerDay;
+    }
+
+    public void calculateTotalHoursPerDay() {
+
+        for(EmployeeHoursPerDay employeeHoursPerDay: employeesHoursPerDay) {
+            totalHoursPerDay += employeeHoursPerDay.getHoursPerDay();
+        }
+    }
+
+    public void calculateDayEstimation() {
+        if(hourEstimation != 0 && totalHoursPerDay != 0)
+         dayEstimation = (int) Math.ceil( hourEstimation / (double) totalHoursPerDay);
+    }
+
+    public void calculateEndDatePrediction() {
+        if(initialDate != null && dayEstimation != 0) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(initialDate);
+            calendar.add(Calendar.DATE, + dayEstimation);
+            endDatePrediction = calendar.getTime();
+        }
     }
 }

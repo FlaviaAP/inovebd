@@ -23,8 +23,8 @@ create table Phase(
   number int not null,
   observation varchar(900),
   endDate date,
+  initialDate date,
   hourEstimation int,
-  dateForecastWithMargin date,
   primary key (id),
   unique key number (number, projectId),
   foreign key (projectId) references Project(id)
@@ -44,7 +44,7 @@ create table Employee(
   name varchar(100) not null,
   workloadHours int not null,
   primary key(name)
-)
+);
 
 create table Task(
   id int not null,

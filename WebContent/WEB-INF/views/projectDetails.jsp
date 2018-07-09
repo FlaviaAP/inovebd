@@ -13,14 +13,34 @@
 <body>
     <h1>${project.name}</h1>
 
-    <h2>Tasks</h2>
-    <!-- here will be all the tasks-->
-
-    <h2>Phase</h2>
+    <h2>Phases</h2>
     <c:forEach var="phase" items="${phases}">
-        <h3>${phase.number}</h3>
+        <h3>Phase ${phase.number}</h3>
         <p>${phase.observation}</p>
-        <br>
+
+        <h4>Tasks</h4>
+        <!-- here will be all the tasks of this phase-->
+
+
+        <h4>Temporal information</h4>
+        <ul>
+            <c:if test="${phase.hourEstimation != 0}">
+                <li> Estimate: ${phase.hourEstimation} hours = ${phase.dayEstimation} days</li>
+            </c:if>
+            <c:if test="${phase.initialDate != null}">
+                <li> Initial date: ${phase.initialDate.toString()}</li>
+                <c:choose>
+                    <c:when test="${phase.endDate != null}">
+                        <li> End date: ${phase.endDate.toString()}</li>
+                    </c:when>
+                    <c:otherwise>
+                        <c:if test="${phase.endDatePrediction != null}">
+                            <li> End date prediction: ${phase.endDatePrediction.toString()}</li>
+                        </c:if>
+                    </c:otherwise>
+                </c:choose>
+            </c:if>
+        </ul>
         <table>
             <thead>
                 <tr>
@@ -35,6 +55,10 @@
                         <td>${employeeHoursPerDay.hoursPerDay}</td>
                     </tr>
                 </c:forEach>
+                <tr>
+                    <td>TOTAL</td>
+                    <td>${phase.totalHoursPerDay}</td>
+                </tr>
             </tbody>
         </table>
     </c:forEach>
