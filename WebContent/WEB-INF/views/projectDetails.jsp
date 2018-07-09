@@ -15,7 +15,7 @@
 
 
     <!-- here will be all the tasks-->
-    <h2>Client</h2>
+    <h2>Client Information</h2>
     <ul>
         <li>
             Name: ${client.name}

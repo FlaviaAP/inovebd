@@ -19,7 +19,7 @@ public class ClientDaoImp implements ClientDao {
         List<Client> clientList = new ArrayList<>();
         ResultSet resultSet = null;
         try{
-            resultSet = baseDao.searchQuery("SELECT * FROM client");
+            resultSet = baseDao.searchQuery("SELECT * FROM Client");
             while(resultSet.next()){
                 String CNPJCPF = resultSet.getString("CNPJCPF");
                 String name = resultSet.getString("name");
@@ -43,7 +43,7 @@ public class ClientDaoImp implements ClientDao {
         Client client = new Client();
         ResultSet resultSet = null;
         try {
-            resultSet = baseDao.searchQuery("SELECT * FROM client AS x WHERE x.CNPJCPF = '" + CNPJCPF + "';");
+            resultSet = baseDao.searchQuery("SELECT * FROM Client AS x WHERE x.CNPJCPF = '" + CNPJCPF + "';");
             resultSet.next();
             client.setName(resultSet.getString("name"));
             client.setCNPJCPF(CNPJCPF);

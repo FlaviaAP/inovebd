@@ -19,11 +19,11 @@ public class EmployeeDaoImp implements EmployeeDao {
         List<Employee> employeeList = new ArrayList<>();
         ResultSet resultSet = null;
         try{
-            resultSet = baseDao.searchQuery("select * from func2");
+            resultSet = baseDao.searchQuery("select * from Employee");
             while(resultSet.next()){
                 Employee employee = new Employee();
-                employee.setAge(resultSet.getInt("func"));
-                employee.setName(resultSet.getString("x"));
+                employee.setWorkloadHours(resultSet.getInt("workloadHours"));
+                employee.setName(resultSet.getString("name"));
                 employeeList.add(employee);
             }
         }catch (SQLException e){

@@ -3,7 +3,7 @@ package com.i9.models;
 public class Employee{
 
     private String name;
-    private Integer age;
+    private Integer workloadHours;
 
 
     public String getName() {
@@ -14,11 +14,11 @@ public class Employee{
         this.name = name;
     }
 
-    public Integer getAge() {
-        return age;
+    public Integer getWorkloadHours() {
+        return workloadHours;
     }
 
-    public void setAge(Integer age) {
-        this.age = age;
+    public void setWorkloadHours(Integer workloadHours) {
+        this.workloadHours = workloadHours;
     }
 }

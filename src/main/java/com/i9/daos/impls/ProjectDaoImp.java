@@ -19,7 +19,7 @@ public class ProjectDaoImp implements ProjectDao {
         List<Project> projectList = new ArrayList<>();
         ResultSet resultSet = null;
         try{
-            resultSet = baseDao.searchQuery("SELECT * FROM project");
+            resultSet = baseDao.searchQuery("SELECT * FROM Project");
             while(resultSet.next()){
                 String name = resultSet.getString("name");
                 String CNPJCPF = resultSet.getString("CNPJCPF");
@@ -42,7 +42,7 @@ public class ProjectDaoImp implements ProjectDao {
         Project project = new Project();
         ResultSet resultSet = null;
         try {
-            resultSet = baseDao.searchQuery("SELECT * FROM project AS x WHERE x.id = " + String.valueOf(id) + ";");
+            resultSet = baseDao.searchQuery("SELECT * FROM Project AS x WHERE x.id = " + String.valueOf(id) + ";");
             resultSet.next();
             project.setName(resultSet.getString("name"));
             project.setCNPJCPF(resultSet.getString("CNPJCPF"));

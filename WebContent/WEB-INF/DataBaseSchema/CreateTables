@@ -1,99 +1,99 @@
-create table cliente(
+create table Client(
   CNPJCPF varchar (15) not null,
   name varchar (90) not null,
   type varchar (1) not null,
   primary key (CNPJCPF)
 );
 
-create table project(
+create table Project(
   id int not null,
   name varchar (90) not null,
   CNPJCPF varchar (15) not null,
   primary key (id),
-  unique key (CNPJCPF,nome),
-  foreign key (CNPJCPF) references cliente(CNPJCPF)
+  unique key (CNPJCPF,name),
+  foreign key (CNPJCPF) references Client(CNPJCPF)
 );
 
-//TRADUZIR PARA INGLES OS PARAMETROS
-create table fase(
+
+create table Fase(
   number int not null,
   observation varchar(900),
   endDate date not null,
-  EstimativaHoras int not null,
-  EstimativaDias int not null,
-  DataPrevisaoComMargem date not null,
-  PessoasPorFase int not null,
-  HorasPorDia int not null,
-  Id int not null,
-  ProjetoId int not null,
-  primary key (Id,ProjetoId),
-  unique key Numero (Numero,ProjetoId),
-  foreign key (ProjetoId) references project(Id)
+  hourEstimation int not null,
+  dayEstimation int not null,
+  dateForecastWithMargin date not null,
+  employeePerFase int not null,
+  hoursPerDay int not null,
+  id int not null,
+  projectId int not null,
+  primary key (id,projectId),
+  unique key number (number, projectId),
+  foreign key (projectId) references Project(id)
 );
 
-create table funcionalidade(
-  FuncionalidadeTag varchar(90) not null,
-  primary key (FuncionalidadeTag)
+create table Functionality(
+  functionalityTag varchar(90) not null,
+  primary key (functionalityTag)
 );
 
-create table plataforma(
-  Nome varchar (90) not null,
-  primary key (Nome)
+create table Platform(
+  name varchar (90) not null,
+  primary key (name)
 );
 
-create table funcionario(
-  Nome varchar(90) not null,
-  CargaHoraria int not null,
-  primary key(nome)
+create table Employee(
+  name varchar(100) not null,
+  workloadHours int not null,
+  primary key(name)
 )
 
-create table tarefa(
-  Nome varchar(90) not null,
-  FaseId int not null,
-  HorasReal int,
-  DataTerminoReal date,
-  Plataforma varchar(90) not null,
-  FuncionalidadeTag varchar(90) not null,
-  DataInicio date not null,
-  HorasPrevisao int not null,
-  DataFimPrevista date,
-  Status int,
-  FuncionarioResponsavel varchar (90) not null ,
-  Id int not null,
-  primary key (Id),
-  unique key Nome(Nome,FaseId,Plataforma),
-  foreign key (FaseId) references fase(Id),
-  foreign key (Plataforma) references plataforma(Nome),
-  foreign key (FuncionalidadeTag) references funcionalidade(FuncionalidadeTag),
-  foreign key (FuncionarioResponsavel) references funcionario(Nome)
+create table Task(
+  id int not null,
+  name varchar(90) not null,
+  faseId int not null,
+  realHours int,
+  realEndDate date,
+  platform varchar(90) not null,
+  functionalityTag varchar(90) not null,
+  initialDate date not null,
+  hourForecast int not null,
+  forecastEndDate date,
+  status int,
+  responsibleEmployee varchar (90) not null ,
+  primary key (id),
+  unique key name(name,FaseId,Platform),
+  foreign key (faseId) references Fase(id),
+  foreign key (platform) references Platform(name),
+  foreign key (functionalityTag) references Functionality(functionalityTag),
+  foreign key (responsibleEmployee) references Employee(name)
 );
 
-create table funcionario_trabalha_tarefa(
-  FuncId varchar(90) not null,
-  TarefaId int not null,
-  Horas int not null,
-  primary key (FuncId,TarefaId),
-  foreign key (FuncId) references funcionario(Nome),
-  foreign key (TarefaId) references tarefa(Id)
+create table EmployeeTask(
+  employeeName varchar(90) not null,
+  taskId int not null,
+  hours int not null,
+  primary key (employeeName,taskId),
+  foreign key (employeeName) references Employee(name),
+  foreign key (taskId) references Task(id)
 );
 
-create table funcionario_trabalha_plataforma(
-  FuncId varchar(90) not null,
-  PlataformaNome varchar (90) not null,
-  primary key (FuncId,PlataformaNome),
-  foreign key (FuncId) references funcionario(Nome),
-  foreign key (PlataformaNome) references plataforma(Nome)
+create table EmployeePlatform(
+  employeeName varchar(90) not null,
+  platformName varchar (90) not null,
+  primary key (employeeName,platformName),
+  foreign key (employeeName) references Employee(name),
+  foreign key (platformName) references Platform(name)
 );
 
-create table dias_semana(
-  DiaDaSemana varchar (20) not null,
-  primary key (DiaDaSemana)
+create table DaysOfWeek(
+  dayOfWeek varchar (20) not null,
+  primary key (dayOfWeek)
 );
 
-create table funcionario_trabalha_dias(
-  FuncId varchar(90) not null,
-  DiaDaSemana varchar (20) not null,
-  primary key (FuncId,DiaDaSemana),
-  foreign key (FuncId) references funcionario(Nome),
-  foreign key (DiaDaSemana) references dias_semana(DiaDaSemana)
+create table EmployeeDaysOfWeek(
+  employeeName varchar(90) not null,
+  dayOfWeek varchar (20) not null,
+  primary key (employeeName,dayOfWeek),
+  foreign key (employeeName) references Employee(name),
+  foreign key (dayOfWeek) references DaysOfWeek(dayOfWeek)
 );
