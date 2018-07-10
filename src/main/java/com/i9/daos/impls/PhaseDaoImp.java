@@ -66,9 +66,7 @@ public class PhaseDaoImp implements PhaseDao{
                 List<EmployeeHoursPerDay> employeesHoursPerDay = employeeHoursPerDayDao.getEmployeesHoursPerDayByPhase(id);
                 phase.setEmployeesHoursPerDay(employeesHoursPerDay);
 
-                phase.calculateTotalHoursPerDay();
-                phase.calculateDayEstimation();
-                phase.calculateEndDatePrediction();
+                phase.calculatePossibleEstimation();
 
                 phaseList.add(phase);
             }

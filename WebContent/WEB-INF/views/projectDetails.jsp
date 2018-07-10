@@ -19,7 +19,32 @@
         <p>${phase.observation}</p>
 
         <h4>Tasks</h4>
-        <!-- here will be all the tasks of this phase-->
+        <ul>
+            <c:forEach var="task" items="${phase.tasks}">
+                <li>
+                    <h5>${task.functionalityTag}: ${task.name} - ${task.platform}</h5>
+                    <ul>
+                        <c:if test="${task.responsibleEmployee != null}">
+                            <li> Assignee: ${task.responsibleEmployee}</li>
+                        </c:if>
+                        <li> Status: ${task.status}</li>
+                        <c:if test="${task.initialDate != null}">
+                            <li> Initial date: ${task.initialDate.toString()}</li>
+                            <c:choose>
+                                <c:when test="${task.realEndDate != null}">
+                                    <li> End date: ${task.realEndDate.toString()}</li>
+                                </c:when>
+                                <c:otherwise>
+                                    <c:if test="${task.endDatePrediction != null}">
+                                        <li> End date prediction: ${task.endDatePrediction.toString()}</li>
+                                    </c:if>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:if>
+                    </ul>
+                </li>
+            </c:forEach>
+        </ul>
 
 
         <h4>Temporal information</h4>
@@ -69,15 +94,7 @@
             Name: ${client.name}
         </li>
         <li>
-            <c:choose>
-                <c:when test='${client.type.compareToIgnoreCase("J") != 0}'>
-                    CPF:
-                </c:when>
-                <c:otherwise>
-                    CNPJ:
-                </c:otherwise>
-            </c:choose>
-            ${client.CNPJCPF}
+            ${client.type}: ${client.CNPJCPF}
         </li>
     </ul>
 

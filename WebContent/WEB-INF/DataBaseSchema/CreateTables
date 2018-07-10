@@ -3,7 +3,7 @@ USE mysql;
 create table Client(
   CNPJCPF varchar (15) not null,
   name varchar (90) not null,
-  type varchar (1) not null,
+  type ENUM('CPF', 'CNPJ') not null,
   primary key (CNPJCPF)
 );
 
@@ -46,6 +46,12 @@ create table Employee(
   primary key(name)
 );
 
+create table Status(
+  statusPercent int not null,
+  statusTag ENUM('Ok', 'In Progress', 'Blocked', 'Not Initialized', 'Merge Request', 'Waiting', 'Need Corrections'),
+  primary key(statusPercent)
+);
+
 create table Task(
   id int not null,
   name varchar(90) not null,
@@ -54,17 +60,17 @@ create table Task(
   realEndDate date,
   platform varchar(90) not null,
   functionalityTag varchar(90) not null,
-  initialDate date not null,
-  hourForecast int not null,
-  forecastEndDate date,
+  initialDate date,
+  hourEstimation int,
   status int,
-  responsibleEmployee varchar (90) not null ,
+  responsibleEmployee varchar(100),
   primary key (id),
   unique key name(name,PhaseId,Platform),
   foreign key (phaseId) references Phase(id),
   foreign key (platform) references Platform(name),
   foreign key (functionalityTag) references Functionality(functionalityTag),
-  foreign key (responsibleEmployee) references Employee(name)
+  foreign key (responsibleEmployee) references Employee(name),
+  foreign key (status) references Status(statusPercent)
 );
 
 create table PhaseEmployee(

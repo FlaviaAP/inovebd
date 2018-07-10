@@ -15,10 +15,14 @@ public class Phase {
 
     private List<EmployeeHoursPerDay> employeesHoursPerDay;
 
+    private List<Task> tasks;
+
     //these don't have at BD
     private int totalHoursPerDay;
     private int dayEstimation;
     private Date endDatePrediction;
+
+    private static PredictionCalculator predictionCalculator = new PredictionCalculator();
 
     public int getId() {
         return id;
@@ -108,24 +112,31 @@ public class Phase {
         this.employeesHoursPerDay = employeesHoursPerDay;
     }
 
-    public void calculateTotalHoursPerDay() {
+    public List<Task> getTasks() {
+        return tasks;
+    }
 
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
+    }
+
+    public void calculatePossibleEstimation() {
+        calculateTotalHoursPerDay();
+        calculateDayEstimation();
+        calculateEndDatePrediction();
+    }
+
+    private void calculateTotalHoursPerDay() {
         for(EmployeeHoursPerDay employeeHoursPerDay: employeesHoursPerDay) {
             totalHoursPerDay += employeeHoursPerDay.getHoursPerDay();
         }
     }
 
-    public void calculateDayEstimation() {
-        if(hourEstimation != 0 && totalHoursPerDay != 0)
-         dayEstimation = (int) Math.ceil( hourEstimation / (double) totalHoursPerDay);
+    private void calculateDayEstimation() {
+        dayEstimation = predictionCalculator.calculateDayEstimation(hourEstimation, totalHoursPerDay);
     }
 
-    public void calculateEndDatePrediction() {
-        if(initialDate != null && dayEstimation != 0) {
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(initialDate);
-            calendar.add(Calendar.DATE, + dayEstimation);
-            endDatePrediction = calendar.getTime();
-        }
+    private void calculateEndDatePrediction() {
+        endDatePrediction = predictionCalculator.calculateEndDatePrediction(initialDate, dayEstimation);
     }
 }
