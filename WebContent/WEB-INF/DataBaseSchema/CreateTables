@@ -46,12 +46,6 @@ create table Employee(
   primary key(name)
 );
 
-create table Status(
-  statusPercent int not null,
-  statusTag ENUM('Ok', 'In Progress', 'Blocked', 'Not Initialized', 'Merge Request', 'Waiting', 'Need Corrections'),
-  primary key(statusPercent)
-);
-
 create table Task(
   id int not null,
   name varchar(90) not null,
@@ -62,15 +56,15 @@ create table Task(
   functionalityTag varchar(90) not null,
   initialDate date,
   hourEstimation int,
-  status int,
   responsibleEmployee varchar(100),
+  statusPercent int,
+  statusTag ENUM('Ok', 'In Progress', 'Blocked', 'Not Initialized', 'Merge Request', 'Waiting', 'Need Corrections'),
   primary key (id),
   unique key name(name,PhaseId,Platform),
   foreign key (phaseId) references Phase(id),
   foreign key (platform) references Platform(name),
   foreign key (functionalityTag) references Functionality(functionalityTag),
-  foreign key (responsibleEmployee) references Employee(name),
-  foreign key (status) references Status(statusPercent)
+  foreign key (responsibleEmployee) references Employee(name)
 );
 
 create table PhaseEmployee(
@@ -85,7 +79,7 @@ create table PhaseEmployee(
 create table EmployeeTask(
   employeeName varchar(90) not null,
   taskId int not null,
-  hours int not null,
+  hoursPerDay int not null,
   primary key (employeeName,taskId),
   foreign key (employeeName) references Employee(name),
   foreign key (taskId) references Task(id)

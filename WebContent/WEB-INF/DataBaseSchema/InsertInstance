@@ -20,8 +20,12 @@ INSERT INTO Platform (name) VALUES ('iOS');
 INSERT INTO Platform (name) VALUES ('Android');
 
 INSERT INTO Functionality (functionalityTag) VALUES ('Collect Requirements');
+INSERT INTO Functionality (functionalityTag) VALUES ('Build Backlog');
 
-INSERT INTO Status (statusPercent, statusTag) VALUES (100, 'Ok');
-
-INSERT INTO Task (id, name, phaseId, realHours, platform, functionalityTag, initialDate, hourEstimation, status, responsibleEmployee, realEndDate)
-    VALUES (1, 'speak with client', 0123, 3, 'iOS', 'Collect Requirements', STR_TO_DATE('4-06-2018', '%d-%m-%Y'), 3, 100, 'Jorge', STR_TO_DATE('5-06-2018', '%d-%m-%Y'));
+INSERT INTO Task (id, name, phaseId, realHours, platform, functionalityTag, initialDate, hourEstimation, responsibleEmployee, realEndDate, statusPercent, statusTag)
+    VALUES (1, 'speak with client', 0123, 3, 'iOS', 'Collect Requirements', STR_TO_DATE('4-06-2018', '%d-%m-%Y'), 3, 'Jorge', STR_TO_DATE('5-06-2018', '%d-%m-%Y'), 100, 'Ok');
+INSERT INTO EmployeeTask (employeeName, taskId, hoursPerDay) VALUES ('Jorge', 1, 4);
+INSERT INTO Task (id, name, phaseId, realHours, platform, functionalityTag, initialDate, hourEstimation, responsibleEmployee, statusPercent, statusTag)
+    VALUES (2, 'write user histories', 0123, 5, 'iOS', 'Build Backlog', STR_TO_DATE('6-06-2018', '%d-%m-%Y'), 30, 'Jorge', 40, 'In Progress');
+INSERT INTO EmployeeTask (employeeName, taskId, hoursPerDay) VALUES ('Jorge', 2, 4);
+INSERT INTO EmployeeTask (employeeName, taskId, hoursPerDay) VALUES ('Amanda', 2, 2);
