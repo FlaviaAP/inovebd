@@ -54,8 +54,8 @@ public class PhaseDaoImp implements PhaseDao{
             resultSet = baseDao.searchQuery("SELECT * FROM Phase AS x WHERE x.projectId = " + String.valueOf(projectId) + ";");
             while(resultSet.next()) {
                 Phase phase = new Phase();
-                int id = resultSet.getInt("id");
-                phase.setId(id);
+                int phaseId = resultSet.getInt("id");
+                phase.setId(phaseId);
                 phase.setNumber(resultSet.getInt("number"));
                 phase.setProjectId(projectId);
                 phase.setObservation(resultSet.getString("observation"));
@@ -63,10 +63,10 @@ public class PhaseDaoImp implements PhaseDao{
                 phase.setEndDate(resultSet.getDate("endDate"));
                 phase.setHourEstimation(resultSet.getInt("hourEstimation"));
 
-                List<EmployeeHoursPerDay> employeesHoursPerDay = employeeHoursPerDayDao.getEmployeesHoursPerDayByPhase(id);
+                List<EmployeeHoursPerDay> employeesHoursPerDay = employeeHoursPerDayDao.getEmployeesHoursPerDayByPhase(phaseId);
                 phase.setEmployeesHoursPerDay(employeesHoursPerDay);
 
-                phase.calculatePossibleEstimation();
+                phase.calculateEstimations();
 
                 phaseList.add(phase);
             }

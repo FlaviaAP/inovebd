@@ -25,9 +25,14 @@
                     <h5>${task.functionalityTag}: ${task.name} - ${task.platform}</h5>
                     <ul>
                         <c:if test="${task.responsibleEmployee != null}">
-                            <li> Assignee: ${task.responsibleEmployee}</li>
+                            <li> Responsible Employee: ${task.responsibleEmployee}</li>
                         </c:if>
-                        <li> Status: ${task.status}</li>
+                        <li> Assignee:
+                            <c:forEach var="employeeHoursPerDay" items="${task.employeesHoursPerDay}">
+                                ${employeeHoursPerDay.employee.name} working ${employeeHoursPerDay.hoursPerDay} hours/day;
+                            </c:forEach>
+                        </li>
+                        <li> Status: ${task.statusPercent}% = ${task.statusTag} </li>
                         <c:if test="${task.initialDate != null}">
                             <li> Initial date: ${task.initialDate.toString()}</li>
                             <c:choose>

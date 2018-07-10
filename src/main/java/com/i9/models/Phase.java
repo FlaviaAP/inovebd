@@ -120,16 +120,14 @@ public class Phase {
         this.tasks = tasks;
     }
 
-    public void calculatePossibleEstimation() {
+    public void calculateEstimations() {
         calculateTotalHoursPerDay();
         calculateDayEstimation();
         calculateEndDatePrediction();
     }
 
     private void calculateTotalHoursPerDay() {
-        for(EmployeeHoursPerDay employeeHoursPerDay: employeesHoursPerDay) {
-            totalHoursPerDay += employeeHoursPerDay.getHoursPerDay();
-        }
+        totalHoursPerDay = predictionCalculator.calculateTotalHoursPerDay(employeesHoursPerDay);
     }
 
     private void calculateDayEstimation() {

@@ -2,6 +2,7 @@ package com.i9.models;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class Task {
     private int id;
@@ -13,12 +14,14 @@ public class Task {
     private String functionalityTag;
     private Date initialDate;
     private int hourEstimation;
-    private int status;
+    private int statusPercent;
+    private String statusTag;
     private String responsibleEmployee;
 
+    private List<EmployeeHoursPerDay> employeesHoursPerDay;
 
     //these don't have at BD
-    private int hoursPerDay;
+    private int totalHoursPerDay;
     private int dayEstimation;
     private Date endDatePrediction;
 
@@ -104,12 +107,20 @@ public class Task {
         this.endDatePrediction = endDatePrediction;
     }
 
-    public int getStatus() {
-        return status;
+    public int getStatusPercent() {
+        return statusPercent;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setStatusPercent(int statusPercent) {
+        this.statusPercent = statusPercent;
+    }
+
+    public String getStatusTag() {
+        return statusTag;
+    }
+
+    public void setStatusTag(String statusTag) {
+        this.statusTag = statusTag;
     }
 
     public String getResponsibleEmployee() {
@@ -120,21 +131,27 @@ public class Task {
         this.responsibleEmployee = responsibleEmployee;
     }
 
-    public int getHoursPerDay() {
-        return hoursPerDay;
+    public List<EmployeeHoursPerDay> getEmployeesHoursPerDay() {
+        return employeesHoursPerDay;
     }
 
-    public void setHoursPerDay(int hoursPerDay) {
-        this.hoursPerDay = hoursPerDay;
+    public void setEmployeesHoursPerDay(List<EmployeeHoursPerDay> employeesHoursPerDay) {
+        this.employeesHoursPerDay = employeesHoursPerDay;
     }
 
-    public void calculatePossibleEstimation() {
+    public void calculateEstimations() {
+        calculateTotalHoursPerDay();
         calculateDayEstimation();
         calculateEndDatePrediction();
     }
 
+    private void calculateTotalHoursPerDay() {
+        totalHoursPerDay = predictionCalculator.calculateTotalHoursPerDay(employeesHoursPerDay);
+    }
+
+
     private void calculateDayEstimation() {
-        dayEstimation = predictionCalculator.calculateDayEstimation(hourEstimation, hoursPerDay);
+        dayEstimation = predictionCalculator.calculateDayEstimation(hourEstimation, totalHoursPerDay);
     }
 
     private void calculateEndDatePrediction() {

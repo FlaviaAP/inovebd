@@ -54,9 +54,11 @@
 
     <bean id="taskDao" class="com.i9.daos.impls.TaskDaoImp">
         <property name="baseDao" ref="baseDao" />
+        <property name="employeeHoursPerDayDao" ref="employeeHoursPerDayDao" />
     </bean>
 
     <bean id="taskService" class="com.i9.services.impls.TaskServiceImp">
         <property name="taskDao" ref="taskDao"/>
     </bean>
+
 </beans>

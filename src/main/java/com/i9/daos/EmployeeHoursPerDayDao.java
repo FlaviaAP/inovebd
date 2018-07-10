@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface EmployeeHoursPerDayDao extends GenericDao<EmployeeHoursPerDay> {
     List<EmployeeHoursPerDay> getEmployeesHoursPerDayByPhase(int phaseId);
+    List<EmployeeHoursPerDay> getEmployeesHoursPerDayByTask(int taskId);
 }

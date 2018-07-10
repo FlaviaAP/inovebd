@@ -24,14 +24,7 @@ public class EmployeeHoursPerDayDaoImp implements EmployeeHoursPerDayDao {
         try {
             resultSet = baseDao.searchQuery("SELECT * FROM PhaseEmployee AS x WHERE x.phaseId = " + String.valueOf(phaseId) + ";");
 
-            while(resultSet.next()) {
-                EmployeeHoursPerDay employeeHoursPerDay = new EmployeeHoursPerDay();
-                employeeHoursPerDay.setHoursPerDay(resultSet.getInt("hoursPerDay"));
-                Employee employee = employeeDao.getEmployee(resultSet.getString("employeeName"));
-                employeeHoursPerDay.setEmployee(employee);
-
-                employeesHoursPerDay.add(employeeHoursPerDay);
-            }
+            employeesHoursPerDay = buildEmployeesHoursPerDayByResultSet(resultSet);
 
         } catch (SQLException e){
             System.out.println("Error while searching on project Table");
@@ -42,6 +35,46 @@ public class EmployeeHoursPerDayDaoImp implements EmployeeHoursPerDayDao {
         }
 
         return employeesHoursPerDay;
+    }
+
+    @Override
+    public List<EmployeeHoursPerDay> getEmployeesHoursPerDayByTask(int taskId) {
+        List<EmployeeHoursPerDay> employeesHoursPerDay = new ArrayList<>();
+        ResultSet resultSet = null;
+        try {
+            resultSet = baseDao.searchQuery("SELECT * FROM EmployeeTask AS x WHERE x.taskId = " + String.valueOf(taskId) + ";");
+
+            employeesHoursPerDay = buildEmployeesHoursPerDayByResultSet(resultSet);
+
+        } catch (SQLException e){
+            System.out.println("Error while searching on project Table");
+            e.printStackTrace();
+        }
+        finally {
+            baseDao.closeQuery(resultSet);
+        }
+
+        return employeesHoursPerDay;
+    }
+
+    private List<EmployeeHoursPerDay> buildEmployeesHoursPerDayByResultSet(ResultSet resultSet) {
+        List<EmployeeHoursPerDay> employeesHoursPerDay = new ArrayList<>();
+
+        try {
+            while (resultSet.next()) {
+                EmployeeHoursPerDay employeeHoursPerDay = new EmployeeHoursPerDay();
+                employeeHoursPerDay.setHoursPerDay(resultSet.getInt("hoursPerDay"));
+                Employee employee = employeeDao.getEmployee(resultSet.getString("employeeName"));
+                employeeHoursPerDay.setEmployee(employee);
+
+                employeesHoursPerDay.add(employeeHoursPerDay);
+            }
+        } catch (SQLException e){
+            System.out.println("Error while searching on project Table");
+            e.printStackTrace();
+        }
+        return employeesHoursPerDay;
+
     }
 
     @Override
