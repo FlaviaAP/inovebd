@@ -11,7 +11,7 @@
      <!--Data Source-->
     <bean id="dataSourceDefault" class="org.apache.commons.dbcp.BasicDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql://localhost:3306/mysql"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/i9db"/>
         <property name="username" value="root"/>
         <property name="password" value="password"/>
         <property name="initialSize" value="1"/>
