@@ -1,4 +1,5 @@
-USE mysql;
+create schema i9db;
+use i9db;
 
 create table Client(
   CNPJCPF varchar (15) not null,
