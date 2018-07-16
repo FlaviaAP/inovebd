@@ -3,6 +3,7 @@ package com.i9.models;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Phase {
@@ -18,6 +19,11 @@ public class Phase {
     private List<Task> tasks;
 
     private LocalDate endDatePrediction;
+
+    public Phase() {
+        tasks = new ArrayList<>();
+        dailyHours = new ArrayList<>();
+    }
 
     private static PredictionCalculator predictionCalculator = new PredictionCalculator();
 
@@ -98,7 +104,11 @@ public class Phase {
     }
 
     public void calculateEstimation() {
-        endDatePrediction = predictionCalculator.calculateEndDatePrediction(initialDate, dailyHours, hourEstimation);
+        endDatePrediction=this.initialDate;
+        for (Task task:tasks){
+            if(endDatePrediction.isBefore(task.getLocalDateEndDatePrediction()))
+                endDatePrediction = task.getLocalDateEndDatePrediction();
+        }
     }
 
 }

@@ -105,6 +105,10 @@ public class Task {
         return null;
     }
 
+    public LocalDate getLocalDateEndDatePrediction(){
+        return endDatePrediction;
+    }
+
     public int getStatusPercent() {
         return statusPercent;
     }

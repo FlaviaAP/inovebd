@@ -40,6 +40,7 @@ public class ProjectDetailsController {
 
         for(Phase phase : phases) {
             phase.setTasks(taskService.getTasksByPhase(phase.getId()));
+            phase.calculateEstimation();
         }
 
         model.addAttribute("project", project);

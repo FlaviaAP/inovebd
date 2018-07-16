@@ -3,6 +3,7 @@ package com.i9.daos.impls;
 import com.i9.daos.BaseDao;
 import com.i9.daos.EmployeeHoursPerDayDao;
 import com.i9.daos.PhaseDao;
+import com.i9.daos.TaskDao;
 import com.i9.models.DailyHours;
 import com.i9.models.Phase;
 import org.springframework.beans.factory.annotation.Required;
@@ -18,6 +19,7 @@ public class PhaseDaoImp implements PhaseDao{
 
     private BaseDao baseDao;
     private EmployeeHoursPerDayDao employeeHoursPerDayDao;
+    private TaskDao taskDao;
 
     @Override
     public Phase getPhase(int id) {
@@ -119,4 +121,5 @@ public class PhaseDaoImp implements PhaseDao{
     public void setEmployeeHoursPerDayDao(EmployeeHoursPerDayDao employeeHoursPerDayDao) {
         this.employeeHoursPerDayDao = employeeHoursPerDayDao;
     }
+
 }

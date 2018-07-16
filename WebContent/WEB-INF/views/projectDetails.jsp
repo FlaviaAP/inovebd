@@ -57,6 +57,7 @@
             <c:if test="${phase.hourEstimation != 0}">
                 <li> Estimate: ${phase.hourEstimation} hours of work</li>
             </c:if>
+
             <c:if test="${phase.initialDate != null}">
                 <li> Initial date: ${phase.initialDate.toString()}</li>
                 <c:choose>
@@ -64,18 +65,19 @@
                         <li> End date: ${phase.endDate.toString()}</li>
                     </c:when>
                     <c:otherwise>
-                        <%--<c:if test="${phase.endDatePrediction != null}">--%>
+                        <c:if test="${phase.endDatePrediction != null}">
                             <li> End date prediction: ${phase.endDatePrediction.toString()}</li>
-                        <%--</c:if>--%>
+                        </c:if>
                     </c:otherwise>
                 </c:choose>
             </c:if>
+
         </ul>
         <%--<table>--%>
             <%--<thead>--%>
                 <%--<tr>--%>
                     <%--<th>Employee</th>--%>
-                    <%--<th>Hour/Day in this phase</th>--%>
+                    <%--<th>Percentage in this phase</th>--%>
                 <%--</tr>--%>
             <%--</thead>--%>
             <%--<tbody>--%>
