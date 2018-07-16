@@ -41,7 +41,7 @@
                                 </c:when>
                                 <c:otherwise>
                                     <c:if test="${task.endDatePrediction != null}">
-                                        <li> End date prediction: ${task.endDatePrediction.toString()}</li>
+                                        <li> End date prediction: ${task.endDatePrediction}</li>
                                     </c:if>
                                 </c:otherwise>
                             </c:choose>
@@ -64,9 +64,9 @@
                         <li> End date: ${phase.endDate.toString()}</li>
                     </c:when>
                     <c:otherwise>
-                        <c:if test="${phase.endDatePrediction != null}">
+                        <%--<c:if test="${phase.endDatePrediction != null}">--%>
                             <li> End date prediction: ${phase.endDatePrediction.toString()}</li>
-                        </c:if>
+                        <%--</c:if>--%>
                     </c:otherwise>
                 </c:choose>
             </c:if>

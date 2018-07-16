@@ -1,5 +1,9 @@
 package com.i9.models;
 
+import javax.swing.text.DateFormatter;
+import java.text.DateFormat;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -99,8 +103,11 @@ public class Task {
         this.hourEstimation = hourEstimation;
     }
 
-    public Date getEndDatePrediction() {
-        return endDatePrediction;
+    public String getEndDatePrediction() {
+        if(endDatePrediction != null)
+            return endDatePrediction.toInstant().atZone(ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern("yyyy-LL-dd"));
+
+        return null;
     }
 
     public void setEndDatePrediction(Date endDatePrediction) {

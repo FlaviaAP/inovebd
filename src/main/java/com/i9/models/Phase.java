@@ -1,5 +1,7 @@
 package com.i9.models;
 
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -88,8 +90,8 @@ public class Phase {
         this.dayEstimation = dayEstimation;
     }
 
-    public Date getEndDatePrediction() {
-        return endDatePrediction;
+    public String getEndDatePrediction() {
+        return endDatePrediction.toInstant().atZone(ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern("yyyy-LL-dd"));
     }
 
     public void setEndDatePrediction(Date endDatePrediction) {
