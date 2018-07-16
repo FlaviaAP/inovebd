@@ -1,10 +1,10 @@
 package com.i9.models;
 
-import com.mysql.cj.conf.ConnectionUrlParser;
+import java.util.List;
 
 public class Employee{
     private String name;
-    private Integer workloadHours;
+    private List<DailyHours> dailyHours;
 
 
     public String getName() {
@@ -15,11 +15,11 @@ public class Employee{
         this.name = name;
     }
 
-    public Integer getWorkloadHours() {
-        return workloadHours;
+    public List<DailyHours> getDailyHours() {
+        return dailyHours;
     }
 
-    public void setWorkloadHours(Integer workloadHours) {
-        this.workloadHours = workloadHours;
+    public void setDailyHours(List<DailyHours> dailyHours) {
+        this.dailyHours = dailyHours;
     }
 }

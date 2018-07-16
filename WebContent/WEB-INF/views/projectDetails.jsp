@@ -29,7 +29,7 @@
                         </c:if>
                         <li> Assignee:
                             <c:forEach var="employeeHoursPerDay" items="${task.employeesHoursPerDay}">
-                                ${employeeHoursPerDay.employee.name} working ${employeeHoursPerDay.hoursPerDay} hours/day;
+                                ${employeeHoursPerDay.employee.name} working ${employeeHoursPerDay.hoursPerDay} dailyWorkload/day;
                             </c:forEach>
                         </li>
                         <li> Status: ${task.statusPercent}% = ${task.statusTag} </li>
@@ -55,7 +55,7 @@
         <h4>Temporal information</h4>
         <ul>
             <c:if test="${phase.hourEstimation != 0}">
-                <li> Estimate: ${phase.hourEstimation} hours = ${phase.dayEstimation} days</li>
+                <li> Estimate: ${phase.hourEstimation} dailyWorkload = ${phase.dayEstimation} days</li>
             </c:if>
             <c:if test="${phase.initialDate != null}">
                 <li> Initial date: ${phase.initialDate.toString()}</li>

@@ -1,24 +1,15 @@
 package com.i9.models;
 
-public class EmployeeDailyHours {
-    private Employee employee;
-    private int hours;
+public class DailyHours {
+    private Double dailyWorkload;
     private String day;
 
-    public Employee getEmployee() {
-        return employee;
+    public Double getDailyWorkload() {
+        return dailyWorkload;
     }
 
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
-
-    public int getHours() {
-        return hours;
-    }
-
-    public void setHours(int hours) {
-        this.hours = hours;
+    public void setDailyWorkload(Double dailyWorkload) {
+        this.dailyWorkload = dailyWorkload;
     }
 
     public String getDay() {

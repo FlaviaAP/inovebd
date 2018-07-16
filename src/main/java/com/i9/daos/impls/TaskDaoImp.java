@@ -3,7 +3,7 @@ package com.i9.daos.impls;
 import com.i9.daos.BaseDao;
 import com.i9.daos.EmployeeHoursPerDayDao;
 import com.i9.daos.TaskDao;
-import com.i9.models.EmployeeHoursPerDay;
+import com.i9.models.DailyHours;
 import com.i9.models.Task;
 import org.springframework.beans.factory.annotation.Required;
 
@@ -38,10 +38,10 @@ public class TaskDaoImp implements TaskDao {
                 task.setStatusPercent(resultSet.getInt("statusPercent"));
                 task.setStatusTag(resultSet.getString("statusTag"));
 
-                List<EmployeeHoursPerDay> employeesHoursPerDay = employeeHoursPerDayDao.getEmployeesHoursPerDayByTask(taskId);
+                List<DailyHours> employeesHoursPerDay = employeeHoursPerDayDao.getEmployeesHoursPerDayByTask(taskId);
                 task.setEmployeesHoursPerDay(employeesHoursPerDay);
 
-                task.calculateEstimations();
+                task.calculateEstimation();
 
                 tasks.add(task);
             }

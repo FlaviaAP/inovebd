@@ -1,10 +1,7 @@
 package com.i9.models;
 
-import javax.swing.text.DateFormatter;
-import java.text.DateFormat;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -22,11 +19,9 @@ public class Task {
     private String statusTag;
     private String responsibleEmployee;
 
-    private List<EmployeeHoursPerDay> employeesHoursPerDay;
+    private List<DailyHours> employeesHoursPerDay;
 
     //these don't have at BD
-    private int totalHoursPerDay;
-    private int dayEstimation;
     private Date endDatePrediction;
 
     private static PredictionCalculator predictionCalculator = new PredictionCalculator();
@@ -138,31 +133,17 @@ public class Task {
         this.responsibleEmployee = responsibleEmployee;
     }
 
-    public List<EmployeeHoursPerDay> getEmployeesHoursPerDay() {
+    public List<DailyHours> getEmployeesHoursPerDay() {
         return employeesHoursPerDay;
     }
 
-    public void setEmployeesHoursPerDay(List<EmployeeHoursPerDay> employeesHoursPerDay) {
+    public void setEmployeesHoursPerDay(List<DailyHours> employeesHoursPerDay) {
         this.employeesHoursPerDay = employeesHoursPerDay;
     }
 
-    public void calculateEstimations() {
-        calculateTotalHoursPerDay();
-        calculateDayEstimation();
-        calculateEndDatePrediction();
-    }
+    public void calculateEstimation() {
 
-    private void calculateTotalHoursPerDay() {
-        totalHoursPerDay = predictionCalculator.calculateTotalHoursPerDay(employeesHoursPerDay);
-    }
-
-
-    private void calculateDayEstimation() {
-        dayEstimation = predictionCalculator.calculateDayEstimation(hourEstimation, totalHoursPerDay);
-    }
-
-    private void calculateEndDatePrediction() {
-        endDatePrediction = predictionCalculator.calculateEndDatePrediction(initialDate, dayEstimation);
+        endDatePrediction = predictionCalculator.calculateEndDatePrediction(initialDate, employeesHoursPerDay, hourEstimation);
     }
 
 }

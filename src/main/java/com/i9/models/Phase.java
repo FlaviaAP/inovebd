@@ -2,7 +2,6 @@ package com.i9.models;
 
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -14,14 +13,10 @@ public class Phase {
     private Date initialDate;
     private Date endDate;
     private int hourEstimation;
-
-    private List<EmployeeHoursPerDay> employeesHoursPerDay;
+    private List<DailyHours> dailyHours;
 
     private List<Task> tasks;
 
-    //these don't have at BD
-    private int totalHoursPerDay;
-    private int dayEstimation;
     private Date endDatePrediction;
 
     private static PredictionCalculator predictionCalculator = new PredictionCalculator();
@@ -82,12 +77,12 @@ public class Phase {
         this.hourEstimation = hourEstimation;
     }
 
-    public int getDayEstimation() {
-        return dayEstimation;
+    public List<DailyHours> getDailyHours() {
+        return dailyHours;
     }
 
-    public void setDayEstimation(int dayEstimation) {
-        this.dayEstimation = dayEstimation;
+    public void setDailyHours(List<DailyHours> dailyHours) {
+        this.dailyHours = dailyHours;
     }
 
     public String getEndDatePrediction() {
@@ -98,21 +93,6 @@ public class Phase {
         this.endDatePrediction = endDatePrediction;
     }
 
-    public int getTotalHoursPerDay() {
-        return totalHoursPerDay;
-    }
-
-    public void setTotalHoursPerDay(int totalHoursPerDay) {
-        this.totalHoursPerDay = totalHoursPerDay;
-    }
-
-    public List<EmployeeHoursPerDay> getEmployeesHoursPerDay() {
-        return employeesHoursPerDay;
-    }
-
-    public void setEmployeesHoursPerDay(List<EmployeeHoursPerDay> employeesHoursPerDay) {
-        this.employeesHoursPerDay = employeesHoursPerDay;
-    }
 
     public List<Task> getTasks() {
         return tasks;
@@ -122,21 +102,8 @@ public class Phase {
         this.tasks = tasks;
     }
 
-    public void calculateEstimations() {
-        calculateTotalHoursPerDay();
-        calculateDayEstimation();
-        calculateEndDatePrediction();
+    public void calculateEstimation() {
+        endDatePrediction = predictionCalculator.calculateEndDatePrediction(initialDate, dailyHours, hourEstimation);
     }
 
-    private void calculateTotalHoursPerDay() {
-        totalHoursPerDay = predictionCalculator.calculateTotalHoursPerDay(employeesHoursPerDay);
-    }
-
-    private void calculateDayEstimation() {
-        dayEstimation = predictionCalculator.calculateDayEstimation(hourEstimation, totalHoursPerDay);
-    }
-
-    private void calculateEndDatePrediction() {
-        endDatePrediction = predictionCalculator.calculateEndDatePrediction(initialDate, dayEstimation);
-    }
 }

@@ -3,7 +3,7 @@ package com.i9.daos.impls;
 import com.i9.daos.BaseDao;
 import com.i9.daos.EmployeeHoursPerDayDao;
 import com.i9.daos.PhaseDao;
-import com.i9.models.EmployeeHoursPerDay;
+import com.i9.models.DailyHours;
 import com.i9.models.Phase;
 import org.springframework.beans.factory.annotation.Required;
 
@@ -32,8 +32,8 @@ public class PhaseDaoImp implements PhaseDao{
             phase.setEndDate(resultSet.getDate("endDate"));
             phase.setHourEstimation(resultSet.getInt("hourEstimation"));
 
-            List<EmployeeHoursPerDay> employeesHoursPerDay = employeeHoursPerDayDao.getEmployeesHoursPerDayByPhase(id);
-            phase.setEmployeesHoursPerDay(employeesHoursPerDay);
+            List<DailyHours> dailyHours = employeeHoursPerDayDao.getEmployeesHoursPerDayByPhase(id);
+            phase.setDailyHours(dailyHours);
 
         } catch (SQLException e){
             System.out.println("Error while searching on project Table");
@@ -63,10 +63,10 @@ public class PhaseDaoImp implements PhaseDao{
                 phase.setEndDate(resultSet.getDate("endDate"));
                 phase.setHourEstimation(resultSet.getInt("hourEstimation"));
 
-                List<EmployeeHoursPerDay> employeesHoursPerDay = employeeHoursPerDayDao.getEmployeesHoursPerDayByPhase(phaseId);
-                phase.setEmployeesHoursPerDay(employeesHoursPerDay);
+                List<DailyHours> employeesHoursPerDay = employeeHoursPerDayDao.getEmployeesHoursPerDayByPhase(phaseId);
+                phase.setDailyHours(employeesHoursPerDay);
 
-                phase.calculateEstimations();
+                phase.calculateEstimation();
 
                 phaseList.add(phase);
             }
