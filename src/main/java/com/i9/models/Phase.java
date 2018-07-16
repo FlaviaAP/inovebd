@@ -1,8 +1,8 @@
 package com.i9.models;
 
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 
 public class Phase {
@@ -10,14 +10,14 @@ public class Phase {
     private int projectId;
     private int number;
     private String observation;
-    private Date initialDate;
-    private Date endDate;
+    private LocalDate initialDate;
+    private LocalDate endDate;
     private int hourEstimation;
     private List<DailyHours> dailyHours;
 
     private List<Task> tasks;
 
-    private Date endDatePrediction;
+    private LocalDate endDatePrediction;
 
     private static PredictionCalculator predictionCalculator = new PredictionCalculator();
 
@@ -53,19 +53,19 @@ public class Phase {
         this.observation = observation;
     }
 
-    public Date getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 
-    public Date getInitialDate() {
+    public LocalDate getInitialDate() {
         return initialDate;
     }
 
-    public void setInitialDate(Date initialDate) {
+    public void setInitialDate(LocalDate initialDate) {
         this.initialDate = initialDate;
     }
 
@@ -86,13 +86,8 @@ public class Phase {
     }
 
     public String getEndDatePrediction() {
-        return endDatePrediction.toInstant().atZone(ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern("yyyy-LL-dd"));
+        return endDatePrediction.format(DateTimeFormatter.ofPattern("yyyy-LL-dd"));
     }
-
-    public void setEndDatePrediction(Date endDatePrediction) {
-        this.endDatePrediction = endDatePrediction;
-    }
-
 
     public List<Task> getTasks() {
         return tasks;

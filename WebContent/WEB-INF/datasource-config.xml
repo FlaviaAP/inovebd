@@ -15,7 +15,7 @@
         <property name="username" value="root"/>
         <property name="password" value="password"/>
         <property name="initialSize" value="1"/>
-        <property name="maxActive" value="5"/>
+        <property name="maxActive" value="1000"/>
         <property name="poolPreparedStatements" value="true"/>
         <property name="maxOpenPreparedStatements" value="-1"/>
     </bean>

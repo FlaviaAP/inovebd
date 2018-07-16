@@ -1,8 +1,8 @@
 package com.i9.models;
 
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 
 public class Task {
@@ -10,10 +10,10 @@ public class Task {
     private String name;
     private int phaseId;
     private int realHours;
-    private Date realEndDate;
+    private LocalDate realEndDate;
     private String platform;
     private String functionalityTag;
-    private Date initialDate;
+    private LocalDate initialDate;
     private int hourEstimation;
     private int statusPercent;
     private String statusTag;
@@ -22,7 +22,7 @@ public class Task {
     private List<DailyHours> employeesHoursPerDay;
 
     //these don't have at BD
-    private Date endDatePrediction;
+    private LocalDate endDatePrediction;
 
     private static PredictionCalculator predictionCalculator = new PredictionCalculator();
 
@@ -58,11 +58,11 @@ public class Task {
         this.realHours = realHours;
     }
 
-    public Date getRealEndDate() {
+    public LocalDate getRealEndDate() {
         return realEndDate;
     }
 
-    public void setRealEndDate(Date realEndDate) {
+    public void setRealEndDate(LocalDate realEndDate) {
         this.realEndDate = realEndDate;
     }
 
@@ -82,11 +82,11 @@ public class Task {
         this.functionalityTag = functionalityTag;
     }
 
-    public Date getInitialDate() {
+    public LocalDate getInitialDate() {
         return initialDate;
     }
 
-    public void setInitialDate(Date initialDate) {
+    public void setInitialDate(LocalDate initialDate) {
         this.initialDate = initialDate;
     }
 
@@ -100,13 +100,9 @@ public class Task {
 
     public String getEndDatePrediction() {
         if(endDatePrediction != null)
-            return endDatePrediction.toInstant().atZone(ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern("yyyy-LL-dd"));
+            return endDatePrediction.format(DateTimeFormatter.ofPattern("yyyy-LL-dd"));
 
         return null;
-    }
-
-    public void setEndDatePrediction(Date endDatePrediction) {
-        this.endDatePrediction = endDatePrediction;
     }
 
     public int getStatusPercent() {

@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Required;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,10 +31,12 @@ public class TaskDaoImp implements TaskDao {
                 task.setId(taskId);
                 task.setPhaseId(phaseId);
                 task.setRealHours(resultSet.getInt("realHours"));
-                task.setRealEndDate(resultSet.getDate("realEndDate"));
+                if(resultSet.getString("realEndDate") != null)
+                    task.setRealEndDate(LocalDate.parse(resultSet.getString("realEndDate"),DateTimeFormatter.ofPattern("yyyy-LL-dd")));
                 task.setPlatform(resultSet.getString("platform"));
                 task.setFunctionalityTag(resultSet.getString("functionalityTag"));
-                task.setInitialDate(resultSet.getDate("initialDate"));
+                if(resultSet.getString("initialDate")!= null)
+                    task.setInitialDate(LocalDate.parse(resultSet.getString("initialDate"),DateTimeFormatter.ofPattern("yyyy-LL-dd")));
                 task.setHourEstimation(resultSet.getInt("hourEstimation"));
                 task.setResponsibleEmployee(resultSet.getString("responsibleEmployee"));
                 task.setStatusPercent(resultSet.getInt("statusPercent"));

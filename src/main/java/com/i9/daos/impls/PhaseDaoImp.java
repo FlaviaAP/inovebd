@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Required;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,8 +30,11 @@ public class PhaseDaoImp implements PhaseDao{
             phase.setNumber(resultSet.getInt("number"));
             phase.setProjectId(resultSet.getInt("projectId"));
             phase.setObservation(resultSet.getString("observation"));
-            phase.setInitialDate(resultSet.getDate("initialDate"));
-            phase.setEndDate(resultSet.getDate("endDate"));
+            if(resultSet.getString("initialDate")!=null)
+                phase.setInitialDate(LocalDate.parse(resultSet.getString("initialDate"),DateTimeFormatter.ofPattern("yyyy-LL-dd")));
+            if(resultSet.getString("endDate") != null)
+                phase.setEndDate(LocalDate.parse(resultSet.getString("endDate"),DateTimeFormatter.ofPattern("yyyy-LL-dd")));
+
             phase.setHourEstimation(resultSet.getInt("hourEstimation"));
 
             List<DailyHours> dailyHours = employeeHoursPerDayDao.getEmployeesHoursPerDayByPhase(id);
@@ -59,8 +64,11 @@ public class PhaseDaoImp implements PhaseDao{
                 phase.setNumber(resultSet.getInt("number"));
                 phase.setProjectId(projectId);
                 phase.setObservation(resultSet.getString("observation"));
-                phase.setInitialDate(resultSet.getDate("initialDate"));
-                phase.setEndDate(resultSet.getDate("endDate"));
+                if(resultSet.getString("initialDate")!=null)
+                    phase.setInitialDate(LocalDate.parse(resultSet.getString("initialDate"),DateTimeFormatter.ofPattern("yyyy-LL-dd")));
+                if(resultSet.getString("endDate") != null)
+                    phase.setEndDate(LocalDate.parse(resultSet.getString("endDate"),DateTimeFormatter.ofPattern("yyyy-LL-dd")));
+
                 phase.setHourEstimation(resultSet.getInt("hourEstimation"));
 
                 List<DailyHours> employeesHoursPerDay = employeeHoursPerDayDao.getEmployeesHoursPerDayByPhase(phaseId);

@@ -27,10 +27,10 @@
                         <c:if test="${task.responsibleEmployee != null}">
                             <li> Responsible Employee: ${task.responsibleEmployee}</li>
                         </c:if>
-                        <li> Assignee:
-                            <c:forEach var="employeeHoursPerDay" items="${task.employeesHoursPerDay}">
-                                ${employeeHoursPerDay.employee.name} working ${employeeHoursPerDay.hoursPerDay} dailyWorkload/day;
-                            </c:forEach>
+                        <li> Assignee: ${task.responsibleEmployee}
+                            <%--<c:forEach var="employeeHoursPerDay" items="${task.employeesHoursPerDay}">--%>
+                                <%--${employeeHoursPerDay.employee.name} working ${employeeHoursPerDay.hoursPerDay} dailyWorkload/day;--%>
+                            <%--</c:forEach>--%>
                         </li>
                         <li> Status: ${task.statusPercent}% = ${task.statusTag} </li>
                         <c:if test="${task.initialDate != null}">
@@ -55,7 +55,7 @@
         <h4>Temporal information</h4>
         <ul>
             <c:if test="${phase.hourEstimation != 0}">
-                <li> Estimate: ${phase.hourEstimation} dailyWorkload = ${phase.dayEstimation} days</li>
+                <li> Estimate: ${phase.hourEstimation} hours of work</li>
             </c:if>
             <c:if test="${phase.initialDate != null}">
                 <li> Initial date: ${phase.initialDate.toString()}</li>
@@ -71,26 +71,26 @@
                 </c:choose>
             </c:if>
         </ul>
-        <table>
-            <thead>
-                <tr>
-                    <th>Employee</th>
-                    <th>Hour/Day in this phase</th>
-                </tr>
-            </thead>
-            <tbody>
-                <c:forEach var="employeeHoursPerDay" items="${phase.employeesHoursPerDay}">
-                    <tr>
-                        <td>${employeeHoursPerDay.employee.name}</td>
-                        <td>${employeeHoursPerDay.hoursPerDay}</td>
-                    </tr>
-                </c:forEach>
-                <tr>
-                    <td>TOTAL</td>
-                    <td>${phase.totalHoursPerDay}</td>
-                </tr>
-            </tbody>
-        </table>
+        <%--<table>--%>
+            <%--<thead>--%>
+                <%--<tr>--%>
+                    <%--<th>Employee</th>--%>
+                    <%--<th>Hour/Day in this phase</th>--%>
+                <%--</tr>--%>
+            <%--</thead>--%>
+            <%--<tbody>--%>
+                <%--<c:forEach var="employeeHoursPerDay" items="${phase.employeesHoursPerDay}">--%>
+                    <%--<tr>--%>
+                        <%--<td>${employeeHoursPerDay.employee.name}</td>--%>
+                        <%--<td>${employeeHoursPerDay.hoursPerDay}</td>--%>
+                    <%--</tr>--%>
+                <%--</c:forEach>--%>
+                <%--<tr>--%>
+                    <%--<td>TOTAL</td>--%>
+                    <%--<td>${phase.totalHoursPerDay}</td>--%>
+                <%--</tr>--%>
+            <%--</tbody>--%>
+        <%--</table>--%>
     </c:forEach>
 
     <h2>Client Information</h2>

@@ -69,8 +69,8 @@ public class EmployeeHoursPerDayDaoImp implements EmployeeHoursPerDayDao {
 
                 if(dailyHoursMap.containsKey(dailyHours.getDay())) {
                     hours += dailyHoursMap.get(dailyHours.getDay()).getDailyWorkload();
-                    dailyHours.setDailyWorkload(hours);
                 }
+                dailyHours.setDailyWorkload(hours);
 
                 dailyHoursMap.put(dailyHours.getDay(), dailyHours);
             }
