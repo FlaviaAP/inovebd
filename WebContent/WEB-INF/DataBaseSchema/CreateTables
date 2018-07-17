@@ -66,15 +66,6 @@ create table Task(
   foreign key (responsibleEmployee) references Employee(name)
 );
 
-create table PhaseEmployee(
-  employeeName varchar(90) not null,
-  phaseId int not null,
-  percentageOfDailyHours int not null,
-  primary key (employeeName,PhaseId),
-  foreign key (employeeName) references Employee(name),
-  foreign key (phaseId) references Phase(id)
-);
-
 create table EmployeeTask(
   employeeName varchar(90) not null,
   taskId int not null,
