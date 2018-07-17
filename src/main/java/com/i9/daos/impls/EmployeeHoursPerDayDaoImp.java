@@ -24,7 +24,7 @@ public class EmployeeHoursPerDayDaoImp implements EmployeeHoursPerDayDao {
         List<DailyHours> employeesHoursPerDay = new ArrayList<>();
         ResultSet resultSet = null;
         try {
-            resultSet = baseDao.searchQuery("SELECT * FROM EmployeeTask AS x WHERE x.taskId = " + String.valueOf(taskId) + ";");
+            resultSet = baseDao.searchQuery("SELECT * FROM EmployeeTask AS data WHERE data.taskId = " + String.valueOf(taskId) + ";");
 
             employeesHoursPerDay = buildEmployeesHoursPerDayByResultSet(resultSet);
 
@@ -44,7 +44,7 @@ public class EmployeeHoursPerDayDaoImp implements EmployeeHoursPerDayDao {
         List<EmployeeAssignedToTask> employeesAssignedToTask = new ArrayList<>();
         ResultSet resultSet = null;
         try {
-            resultSet = baseDao.searchQuery("SELECT * FROM EmployeeTask AS x WHERE x.taskId = " + String.valueOf(taskId) + ";");
+            resultSet = baseDao.searchQuery("SELECT * FROM EmployeeTask AS data WHERE data.taskId = " + String.valueOf(taskId) + ";");
             while(resultSet.next())
                 employeesAssignedToTask.add(new EmployeeAssignedToTask(resultSet.getString("employeeName"),resultSet.getInt("percentageOfDailyHours")));
         } catch (SQLException e){

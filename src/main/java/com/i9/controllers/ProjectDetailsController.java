@@ -1,24 +1,27 @@
 package com.i9.controllers;
 
 
-import com.i9.models.Client;
-import com.i9.models.Phase;
-import com.i9.models.Project;
-import com.i9.services.ClientService;
-import com.i9.services.PhaseService;
-import com.i9.services.ProjectService;
-import com.i9.services.TaskService;
+import com.i9.models.*;
+import com.i9.services.*;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 @RequestMapping("/project")
 public class ProjectDetailsController {
+
+    @Resource
+    private EmployeeService employeeService;
 
     @Resource
     private ProjectService projectService;
@@ -46,6 +49,20 @@ public class ProjectDetailsController {
         model.addAttribute("project", project);
         model.addAttribute("client", client);
         model.addAttribute("phases", phases);
+        model.addAttribute("timeFormatter", DateTimeFormatter.ofPattern("dd-MMM-yyyy"));
         return "projectDetails";
+    }
+
+    @RequestMapping(value="/createTask",method = RequestMethod.GET)
+    public String getCreateTask(Integer phaseId, Model model){
+        model.addAttribute("phaseId",phaseId);
+        model.addAttribute("employees",employeeService.getEmployees());
+        return "createTask";
+    }
+
+    @RequestMapping(value="/createTask",method = RequestMethod.POST)
+    public String postCreateTask(@RequestBody(required = false) Task task, Model model){
+        taskService.saveTask(task);
+        return "redirect:/details";
     }
 }

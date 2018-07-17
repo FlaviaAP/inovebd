@@ -87,7 +87,7 @@
         <h3>Phase ${phase.number}</h3>
         <p>${phase.observation}</p>
 
-                <h4>Tasks</h4>
+                <h4>Task</h4>
                 <ul>
                     <c:forEach var="task" items="${phase.tasks}">
                         <li>
@@ -99,19 +99,23 @@
                                 <li> Assigneds Employees: </li>
                                 <ul>
                                     <c:forEach var="employeeAssignedToTask" items="${task.employeesAssignedToTask}">
-                                        <li>${employeeAssignedToTask.name} worked ${employeeAssignedToTask.dailyHoursPorcentage}% of his/hers time on this task</li>
+                                        <li>${employeeAssignedToTask.name} worked ${employeeAssignedToTask.dailyHoursPercentage}% of his/hers time on this task</li>
                                     </c:forEach>
                                 </ul>
+                                <li>Estimated ${task.hourEstimation} Hours</li>
                                 <li> Status: ${task.statusPercent}% = ${task.statusTag} </li>
                                 <c:if test="${task.initialDate != null}">
-                                    <li> Initial date: ${task.initialDate.toString()}</li>
+                                    <li> Initial date: ${task.initialDate.format(timeFormatter)}</li>
                                     <c:choose>
                                         <c:when test="${task.realEndDate != null}">
-                                            <li> End date: ${task.realEndDate.toString()}</li>
+                                            <li> End date: ${task.realEndDate.format(timeFormatter)}</li>
                                         </c:when>
                                         <c:otherwise>
                                             <c:if test="${task.endDatePrediction != null}">
-                                                <li> End date prediction: ${task.endDatePrediction}</li>
+                                                <li> End date prediction: ${task.localDateEndDatePrediction.format(timeFormatter)}</li>
+                                            </c:if>
+                                            <c:if test="${task.endDatePrediction == null}">
+                                                <li> End date prediction: Undefined</li>
                                             </c:if>
                                         </c:otherwise>
                                     </c:choose>
@@ -119,48 +123,35 @@
                             </ul>
                         </li>
                     </c:forEach>
+                    <form action="/project/createTask" method="get">
+                        <input type="hidden" name="phaseId" value="${phase.id}">
+                        <button>Add Task To Phase</button>
+                    </form>
                 </ul>
 
 
-                <h4>Temporal information</h4>
+                <h4>Phase ${phase.number} Temporal information</h4>
                 <ul>
                     <c:if test="${phase.hourEstimation != 0}">
                         <li> Estimate: ${phase.hourEstimation} hours of work</li>
                     </c:if>
                     <c:if test="${phase.initialDate != null}">
-                        <li> Initial date: ${phase.initialDate.toString()}</li>
+                        <li> Initial date: ${phase.initialDate.format(timeFormatter)}</li>
                         <c:choose>
                             <c:when test="${phase.endDate != null}">
-                                <li> End date: ${phase.endDate.toString()}</li>
+                                <li> End date: ${phase.endDate.format(timeFormatter)}</li>
                             </c:when>
                             <c:otherwise>
                                 <c:if test="${phase.endDatePrediction != null}">
-                                <li> End date prediction: ${phase.endDatePrediction.toString()}</li>
+                                <li> End date prediction: ${phase.localDateEndDatePrediction    .format(timeFormatter)}</li>
+                                </c:if>
+                                <c:if test="${phase.endDatePrediction == null}">
+                                    <li> End date prediction: Undefined</li>
                                 </c:if>
                             </c:otherwise>
                         </c:choose>
                     </c:if>
                 </ul>
-                <%--<table>--%>
-                    <%--<thead>--%>
-                    <%--<tr>--%>
-                        <%--<th>Employee</th>--%>
-                        <%--<th>Hour/Day in this phase</th>--%>
-                    <%--</tr>--%>
-                    <%--</thead>--%>
-                    <%--<tbody>--%>
-                    <%--<c:forEach var="employeeHoursPerDay" items="${phase.dailyHours}">--%>
-                        <%--<tr>--%>
-                            <%--<td>${employeeHoursPerDay.employee.name}</td>--%>
-                            <%--<td>${employeeHoursPerDay.hoursPerDay}</td>--%>
-                        <%--</tr>--%>
-                    <%--</c:forEach>--%>
-                    <%--<tr>--%>
-                        <%--<td>TOTAL</td>--%>
-                        <%--<td>${phase.totalHoursPerDay}</td>--%>
-                    <%--</tr>--%>
-                    <%--</tbody>--%>
-                <%--</table>--%>
             </c:forEach>
 
             <h2>Client Information</h2>
@@ -178,5 +169,6 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </body>
 </html>

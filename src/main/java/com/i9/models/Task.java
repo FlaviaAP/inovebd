@@ -1,17 +1,22 @@
 package com.i9.models;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Task {
     private int id;
     private String name;
     private int phaseId;
     private int realHours;
+    @DateTimeFormat(pattern = "MM-dd-yyyy")
     private LocalDate realEndDate;
     private String platform;
     private String functionalityTag;
+    @DateTimeFormat(pattern = "MM-dd-yyyy")
     private LocalDate initialDate;
     private int hourEstimation;
     private int statusPercent;
@@ -23,6 +28,9 @@ public class Task {
     //these don't have at BD
     private LocalDate endDatePrediction;
 
+    public Task(){
+
+    }
     private static PredictionCalculator predictionCalculator = new PredictionCalculator();
 
     public int getId() {
@@ -89,6 +97,10 @@ public class Task {
         this.initialDate = initialDate;
     }
 
+    public void setInitialDate(String initialDate) {
+        this.initialDate = LocalDate.parse(initialDate,DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+    }
+
     public int getHourEstimation() {
         return hourEstimation;
     }
@@ -99,7 +111,7 @@ public class Task {
 
     public String getEndDatePrediction() {
         if(endDatePrediction != null)
-            return endDatePrediction.format(DateTimeFormatter.ofPattern("yyyy-LL-dd"));
+            return endDatePrediction.format(DateTimeFormatter.ofPattern("MM-dd-yyyy"));
 
         return null;
     }
@@ -150,6 +162,6 @@ public class Task {
     }
 
     public void setEmployeesAssignedToTask(List<EmployeeAssignedToTask> employeesAssignedToTask) {
-        this.employeesAssignedToTask = employeesAssignedToTask;
+        this.employeesAssignedToTask = employeesAssignedToTask.parallelStream().filter(employeeAssignedToTask ->  employeeAssignedToTask.getDailyHoursPercentage() > 0 ).collect(Collectors.toList());
     }
 }

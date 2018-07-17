@@ -48,7 +48,7 @@ public class EmployeeDaoImp implements EmployeeDao {
         Employee employee = null;
         ResultSet resultSet = null;
         try {
-            resultSet = baseDao.searchQuery("SELECT * FROM Employee AS x WHERE x.name = '" + name + "';");
+            resultSet = baseDao.searchQuery("SELECT * FROM Employee AS data WHERE data.name = '" + name + "';");
             resultSet.next();
             employee = convertFromResultSetToEmployee(resultSet);
         } catch (SQLException e){

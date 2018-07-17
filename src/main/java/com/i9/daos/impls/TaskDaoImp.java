@@ -25,10 +25,11 @@ public class TaskDaoImp implements TaskDao {
         List<Task> tasks = new ArrayList<>();
         ResultSet resultSet = null;
         try {
-            resultSet = baseDao.searchQuery("SELECT * FROM Task AS x WHERE x.phaseId = " + String.valueOf(phaseId) + ";");
+            resultSet = baseDao.searchQuery("SELECT * FROM Task AS data WHERE data.phaseId = " + String.valueOf(phaseId) + ";");
             while (resultSet.next()) {
                 Task task = new Task();
                 int taskId = resultSet.getInt("id");
+                task.setName(resultSet.getString("name"));
                 task.setId(taskId);
                 task.setPhaseId(phaseId);
                 task.setRealHours(resultSet.getInt("realHours"));
@@ -69,7 +70,39 @@ public class TaskDaoImp implements TaskDao {
     }
 
     @Override
-    public boolean save(Task object) {
+    public boolean save(Task task) {
+        try{
+            ResultSet resultSet = baseDao.searchQuery("SELECT max(id)+1 from Task");
+            resultSet.next();
+            task.setId(resultSet.getInt(1));
+        }catch (SQLException e){
+
+        }
+        try{
+            baseDao.transactionQuery("INSERT INTO Functionality values('"+ task.getFunctionalityTag() +"');");
+        }catch (SQLException e){
+
+        }
+        try {
+            String sql = "INSERT INTO Task (id, name, phaseId, platform, functionalityTag, initialDate, hourEstimation, responsibleEmployee, statusPercent, statusTag)\n" +
+                    "SELECT max(id)+1 , '" + task.getName()+"', "+task.getPhaseId()+", '"+task.getPlatform()+"', '"+task.getFunctionalityTag()+"', " +
+                    "STR_TO_DATE('"+task.getInitialDate().format(DateTimeFormatter.ofPattern("dd-LL-yyyy")) +"', '%d-%m-%Y'), "+task.getHourEstimation()+", '"+task.getResponsibleEmployee()+"', " +
+                    task.getStatusPercent()+", '"+task.getStatusTag()+"' from Task;";
+            baseDao.transactionQuery(sql);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            for(EmployeeAssignedToTask employeeAssignedToTask: task.getEmployeesAssignedToTask()){
+                baseDao.transactionQuery("INSERT INTO EmployeeTask (employeeName, taskId, percentageOfDailyHours) VALUES ('"+employeeAssignedToTask.getName()+"', "+ task.getId()+", "+employeeAssignedToTask.getDailyHoursPercentage() + ");");
+            }
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+
         return false;
     }
 

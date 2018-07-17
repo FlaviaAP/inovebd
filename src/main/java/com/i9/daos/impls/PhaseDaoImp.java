@@ -26,7 +26,7 @@ public class PhaseDaoImp implements PhaseDao{
         Phase phase = new Phase();
         ResultSet resultSet = null;
         try {
-            resultSet = baseDao.searchQuery("SELECT * FROM Phase AS x WHERE x.id = " + String.valueOf(id) + ";");
+            resultSet = baseDao.searchQuery("SELECT * FROM Phase AS data WHERE data.id = " + String.valueOf(id) + ";");
             resultSet.next();
             phase.setId(id);
             phase.setNumber(resultSet.getInt("number"));
@@ -55,7 +55,7 @@ public class PhaseDaoImp implements PhaseDao{
         List<Phase> phaseList = new ArrayList<>();
         ResultSet resultSet = null;
         try {
-            resultSet = baseDao.searchQuery("SELECT * FROM Phase AS x WHERE x.projectId = " + String.valueOf(projectId) + ";");
+            resultSet = baseDao.searchQuery("SELECT * FROM Phase AS data WHERE data.projectId = " + String.valueOf(projectId) + ";");
             while(resultSet.next()) {
                 Phase phase = new Phase();
                 int phaseId = resultSet.getInt("id");

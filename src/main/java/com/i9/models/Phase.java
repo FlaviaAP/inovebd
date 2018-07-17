@@ -1,7 +1,8 @@
 package com.i9.models;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +12,9 @@ public class Phase {
     private int projectId;
     private int number;
     private String observation;
+    @DateTimeFormat(pattern = "MM-dd-yyyy")
     private LocalDate initialDate;
+    @DateTimeFormat(pattern = "MM-dd-yyyy")
     private LocalDate endDate;
     private int hourEstimation;
     private List<DailyHours> dailyHours;
@@ -84,7 +87,13 @@ public class Phase {
     }
 
     public String getEndDatePrediction() {
-        return endDatePrediction.format(DateTimeFormatter.ofPattern("yyyy-LL-dd"));
+        if(endDatePrediction!=null)
+            return endDatePrediction.format(DateTimeFormatter.ofPattern("yyyy-LL-dd"));
+        return null;
+    }
+
+    public LocalDate getLocalDateEndDatePrediction(){
+        return endDatePrediction;
     }
 
     public List<Task> getTasks() {
@@ -98,6 +107,13 @@ public class Phase {
     public void calculateEstimation() {
         endDatePrediction=this.initialDate;
         for (Task task:tasks){
+            if(this.initialDate == null){
+                break;
+            }
+            if(task.getLocalDateEndDatePrediction() == null){
+                endDatePrediction=null;
+                break;
+            }
             if(endDatePrediction.isBefore(task.getLocalDateEndDatePrediction()))
                 endDatePrediction = task.getLocalDateEndDatePrediction();
         }

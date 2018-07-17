@@ -3,11 +3,14 @@ package com.i9.models;
 public class EmployeeAssignedToTask {
 
     private String name;
-    private Integer dailyHoursPorcentage;
+    private Integer dailyHoursPercentage;
 
-    public EmployeeAssignedToTask(String name, Integer dailyHoursPorcentage) {
+    public EmployeeAssignedToTask(String name, Integer dailyHoursPercentage) {
         this.name = name;
-        this.dailyHoursPorcentage = dailyHoursPorcentage;
+        this.dailyHoursPercentage = dailyHoursPercentage;
+    }
+
+    public EmployeeAssignedToTask() {
     }
 
     public String getName() {
@@ -18,11 +21,11 @@ public class EmployeeAssignedToTask {
         this.name = name;
     }
 
-    public Integer getDailyHoursPorcentage() {
-        return dailyHoursPorcentage;
+    public Integer getDailyHoursPercentage() {
+        return dailyHoursPercentage;
     }
 
-    public void setDailyHoursPorcentage(Integer dailyHoursPorcentage) {
-        this.dailyHoursPorcentage = dailyHoursPorcentage;
+    public void setDailyHoursPercentage(Integer dailyHoursPercentage) {
+        this.dailyHoursPercentage = dailyHoursPercentage;
     }
 }

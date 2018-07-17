@@ -43,7 +43,7 @@ public class ClientDaoImp implements ClientDao {
         Client client = new Client();
         ResultSet resultSet = null;
         try {
-            resultSet = baseDao.searchQuery("SELECT * FROM Client AS x WHERE x.CNPJCPF = '" + CNPJCPF + "';");
+            resultSet = baseDao.searchQuery("SELECT * FROM Client AS data WHERE data.CNPJCPF = '" + CNPJCPF + "';");
             resultSet.next();
             client.setName(resultSet.getString("name"));
             client.setCNPJCPF(CNPJCPF);
