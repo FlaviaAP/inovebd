@@ -83,14 +83,6 @@ public class Phase {
         this.hourEstimation = hourEstimation;
     }
 
-    public List<DailyHours> getDailyHours() {
-        return dailyHours;
-    }
-
-    public void setDailyHours(List<DailyHours> dailyHours) {
-        this.dailyHours = dailyHours;
-    }
-
     public String getEndDatePrediction() {
         return endDatePrediction.format(DateTimeFormatter.ofPattern("yyyy-LL-dd"));
     }

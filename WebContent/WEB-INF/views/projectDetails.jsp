@@ -96,6 +96,12 @@
                                 <c:if test="${task.responsibleEmployee != null}">
                                     <li> Responsible Employee: ${task.responsibleEmployee}</li>
                                 </c:if>
+                                <li> Assigneds Employees: </li>
+                                <ul>
+                                    <c:forEach var="employeeAssignedToTask" items="${task.employeesAssignedToTask}">
+                                        <li>${employeeAssignedToTask.name} worked ${employeeAssignedToTask.dailyHoursPorcentage}% of his/hers time on this task</li>
+                                    </c:forEach>
+                                </ul>
                                 <li> Status: ${task.statusPercent}% = ${task.statusTag} </li>
                                 <c:if test="${task.initialDate != null}">
                                     <li> Initial date: ${task.initialDate.toString()}</li>
@@ -111,22 +117,6 @@
                                     </c:choose>
                                 </c:if>
                             </ul>
-                        </li>
-                        <li> Status: ${task.statusPercent}% = ${task.statusTag} </li>
-                        <c:if test="${task.initialDate != null}">
-                            <li> Initial date: ${task.initialDate.toString()}</li>
-                            <c:choose>
-                                <c:when test="${task.realEndDate != null}">
-                                    <li> End date: ${task.realEndDate.toString()}</li>
-                                </c:when>
-                                <c:otherwise>
-                                    <c:if test="${task.endDatePrediction != null}">
-                                        <li> End date prediction: ${task.endDatePrediction}</li>
-                                    </c:if>
-                                </c:otherwise>
-                            </c:choose>
-                        </c:if>
-                        </ul>
                         </li>
                     </c:forEach>
                 </ul>
@@ -159,7 +149,7 @@
                     <%--</tr>--%>
                     <%--</thead>--%>
                     <%--<tbody>--%>
-                    <%--<c:forEach var="employeeHoursPerDay" items="${phase.employeesHoursPerDay}">--%>
+                    <%--<c:forEach var="employeeHoursPerDay" items="${phase.dailyHours}">--%>
                         <%--<tr>--%>
                             <%--<td>${employeeHoursPerDay.employee.name}</td>--%>
                             <%--<td>${employeeHoursPerDay.hoursPerDay}</td>--%>

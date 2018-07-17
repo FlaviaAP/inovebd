@@ -39,9 +39,6 @@ public class PhaseDaoImp implements PhaseDao{
 
             phase.setHourEstimation(resultSet.getInt("hourEstimation"));
 
-            List<DailyHours> dailyHours = employeeHoursPerDayDao.getEmployeesHoursPerDayByPhase(id);
-            phase.setDailyHours(dailyHours);
-
         } catch (SQLException e){
             System.out.println("Error while searching on project Table");
             e.printStackTrace();
@@ -72,9 +69,6 @@ public class PhaseDaoImp implements PhaseDao{
                     phase.setEndDate(LocalDate.parse(resultSet.getString("endDate"),DateTimeFormatter.ofPattern("yyyy-LL-dd")));
 
                 phase.setHourEstimation(resultSet.getInt("hourEstimation"));
-
-                List<DailyHours> employeesHoursPerDay = employeeHoursPerDayDao.getEmployeesHoursPerDayByPhase(phaseId);
-                phase.setDailyHours(employeesHoursPerDay);
 
                 phase.calculateEstimation();
 

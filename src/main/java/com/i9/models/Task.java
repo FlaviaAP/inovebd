@@ -1,7 +1,6 @@
 package com.i9.models;
 
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -19,8 +18,8 @@ public class Task {
     private String statusTag;
     private String responsibleEmployee;
 
-    private List<DailyHours> employeesHoursPerDay;
-
+    private List<DailyHours> dailyHours;
+    private List<EmployeeAssignedToTask> employeesAssignedToTask;
     //these don't have at BD
     private LocalDate endDatePrediction;
 
@@ -133,17 +132,24 @@ public class Task {
         this.responsibleEmployee = responsibleEmployee;
     }
 
-    public List<DailyHours> getEmployeesHoursPerDay() {
-        return employeesHoursPerDay;
+    public List<DailyHours> getDailyHours() {
+        return dailyHours;
     }
 
-    public void setEmployeesHoursPerDay(List<DailyHours> employeesHoursPerDay) {
-        this.employeesHoursPerDay = employeesHoursPerDay;
+    public void setDailyHours(List<DailyHours> dailyHours) {
+        this.dailyHours = dailyHours;
     }
 
     public void calculateEstimation() {
 
-        endDatePrediction = predictionCalculator.calculateEndDatePrediction(initialDate, employeesHoursPerDay, hourEstimation);
+        endDatePrediction = predictionCalculator.calculateEndDatePrediction(initialDate, dailyHours, hourEstimation);
     }
 
+    public List<EmployeeAssignedToTask> getEmployeesAssignedToTask() {
+        return employeesAssignedToTask;
+    }
+
+    public void setEmployeesAssignedToTask(List<EmployeeAssignedToTask> employeesAssignedToTask) {
+        this.employeesAssignedToTask = employeesAssignedToTask;
+    }
 }

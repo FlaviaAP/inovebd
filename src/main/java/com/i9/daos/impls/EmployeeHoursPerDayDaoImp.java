@@ -5,6 +5,7 @@ import com.i9.daos.EmployeeDao;
 import com.i9.daos.EmployeeHoursPerDayDao;
 import com.i9.models.Employee;
 import com.i9.models.DailyHours;
+import com.i9.models.EmployeeAssignedToTask;
 import org.springframework.beans.factory.annotation.Required;
 
 import java.sql.ResultSet;
@@ -17,26 +18,6 @@ public class EmployeeHoursPerDayDaoImp implements EmployeeHoursPerDayDao {
 
     private BaseDao baseDao;
     private EmployeeDao employeeDao;
-
-    @Override
-    public List<DailyHours> getEmployeesHoursPerDayByPhase(int phaseId) {
-        List<DailyHours> employeesHoursPerDay = new ArrayList<>();
-        ResultSet resultSet = null;
-        try {
-            resultSet = baseDao.searchQuery("SELECT * FROM PhaseEmployee AS x WHERE x.phaseId = " + String.valueOf(phaseId) + ";");
-
-            employeesHoursPerDay = buildEmployeesHoursPerDayByResultSet(resultSet);
-
-        } catch (SQLException e){
-            System.out.println("Error while searching on project Table");
-            e.printStackTrace();
-        }
-        finally {
-            baseDao.closeQuery(resultSet);
-        }
-
-        return employeesHoursPerDay;
-    }
 
     @Override
     public List<DailyHours> getEmployeesHoursPerDayByTask(int taskId) {
@@ -58,6 +39,24 @@ public class EmployeeHoursPerDayDaoImp implements EmployeeHoursPerDayDao {
         return employeesHoursPerDay;
     }
 
+    @Override
+    public List<EmployeeAssignedToTask> getEmployeesAssignedToTask(int taskId){
+        List<EmployeeAssignedToTask> employeesAssignedToTask = new ArrayList<>();
+        ResultSet resultSet = null;
+        try {
+            resultSet = baseDao.searchQuery("SELECT * FROM EmployeeTask AS x WHERE x.taskId = " + String.valueOf(taskId) + ";");
+            while(resultSet.next())
+                employeesAssignedToTask.add(new EmployeeAssignedToTask(resultSet.getString("employeeName"),resultSet.getInt("percentageOfDailyHours")));
+        } catch (SQLException e){
+            System.out.println("Error while searching on project Table");
+            e.printStackTrace();
+        }
+        finally {
+            baseDao.closeQuery(resultSet);
+        }
+        return employeesAssignedToTask;
+    }
+
     private List<DailyHours> buildEmployeesHoursPerDayByResultSet(ResultSet resultSet) throws SQLException {
         HashMap<String, DailyHours> dailyHoursMap = new HashMap<>();
         while(resultSet.next()){
@@ -71,6 +70,7 @@ public class EmployeeHoursPerDayDaoImp implements EmployeeHoursPerDayDao {
                     hours += dailyHoursMap.get(dailyHours.getDay()).getDailyWorkload();
                 }
                 dailyHours.setDailyWorkload(hours);
+
 
                 dailyHoursMap.put(dailyHours.getDay(), dailyHours);
             }
