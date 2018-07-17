@@ -37,7 +37,6 @@ public class PhaseDaoImp implements PhaseDao{
             if(resultSet.getString("endDate") != null)
                 phase.setEndDate(LocalDate.parse(resultSet.getString("endDate"),DateTimeFormatter.ofPattern("yyyy-LL-dd")));
 
-            phase.setHourEstimation(resultSet.getInt("hourEstimation"));
 
         } catch (SQLException e){
             System.out.println("Error while searching on project Table");
@@ -67,8 +66,6 @@ public class PhaseDaoImp implements PhaseDao{
                     phase.setInitialDate(LocalDate.parse(resultSet.getString("initialDate"),DateTimeFormatter.ofPattern("yyyy-LL-dd")));
                 if(resultSet.getString("endDate") != null)
                     phase.setEndDate(LocalDate.parse(resultSet.getString("endDate"),DateTimeFormatter.ofPattern("yyyy-LL-dd")));
-
-                phase.setHourEstimation(resultSet.getInt("hourEstimation"));
 
                 phase.calculateEstimation();
 

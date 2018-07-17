@@ -79,12 +79,13 @@ public class Phase {
     }
 
     public int getHourEstimation() {
-        return hourEstimation;
+        int totalHoursEstimation = 0;
+        for (Task task: tasks){
+         totalHoursEstimation += task.getHourEstimation();
+        }
+        return totalHoursEstimation;
     }
 
-    public void setHourEstimation(int hourEstimation) {
-        this.hourEstimation = hourEstimation;
-    }
 
     public String getEndDatePrediction() {
         if(endDatePrediction!=null)

@@ -25,7 +25,6 @@ create table Phase(
   observation varchar(900),
   endDate date,
   initialDate date,
-  hourEstimation int,
   primary key (id),
   unique key number (number, projectId),
   foreign key (projectId) references Project(id)
