@@ -19,4 +19,11 @@ public class TaskServiceImp implements TaskService{
 
     @Required
     public void setTaskDao(TaskDao taskDao) { this.taskDao = taskDao; }
+
+    @Override
+    public Boolean saveTask(Task task) {
+        task.setStatusPercent(0);
+        task.setStatusTag("Not Initialized");
+        return taskDao.save(task);
+    }
 }

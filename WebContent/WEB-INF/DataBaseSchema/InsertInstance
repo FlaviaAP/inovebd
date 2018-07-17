@@ -1,20 +1,21 @@
+
 INSERT INTO Client (type, name, CNPJCPF) VALUES ('CNPJ', 'Unimed', '2-1-3-4');
-INSERT INTO Employee (name, workloadHours) VALUES ('Thais', 8);
-INSERT INTO Employee (name, workloadHours) VALUES ('Jorge', 8);
-INSERT INTO Employee (name, workloadHours) VALUES ('Amanda', 6);
+INSERT INTO Employee (name) VALUES ('Thais');
+INSERT INTO Employee (name) VALUES ('Jorge');
+INSERT INTO Employee (name) VALUES ('Amanda');
 
 INSERT INTO Project (id, name, CNPJCPF) VALUES (1, 'Health', '2-1-3-4');
-INSERT INTO Phase (id, projectId, number, observation, hourEstimation, initialDate, endDate) VALUES (666, 1, 0, 'Requirements analysis', 16, STR_TO_DATE('10-06-2018', '%d-%m-%Y'), STR_TO_DATE('11-06-2018', '%d-%m-%Y'));
-INSERT INTO PhaseEmployee (employeeName, phaseId, hoursPerDay) VALUES ('Thais', 666, 8);
+INSERT INTO Phase (id, projectId, number, observation, initialDate, endDate) VALUES (666, 1, 0, 'Requirements analysis', STR_TO_DATE('10-06-2018', '%d-%m-%Y'), STR_TO_DATE('11-06-2018', '%d-%m-%Y'));
+INSERT INTO PhaseEmployee (employeeName, phaseId, percentageOfDailyHours) VALUES ('Thais', 666, 100);
 
 
 INSERT INTO Project (id, name, CNPJCPF) VALUES (2, 'Be strong', '2-1-3-4');
-INSERT INTO Phase (id, projectId, number, observation, hourEstimation, initialDate) VALUES (0123, 2, 0, 'Requirements analysis', 30, STR_TO_DATE('4-06-2018', '%d-%m-%Y'));
-INSERT INTO PhaseEmployee (employeeName, phaseId, hoursPerDay) VALUES ('Jorge', 0123, 8);
-INSERT INTO PhaseEmployee (employeeName, phaseId, hoursPerDay) VALUES ('Amanda', 0123, 2);
-INSERT INTO Phase (id, projectId, number, observation, hourEstimation) VALUES (1234, 2, 1, 'Build the back-end', 120);
-INSERT INTO PhaseEmployee (employeeName, phaseId, hoursPerDay) VALUES ('Jorge', 1234, 7);
-INSERT INTO PhaseEmployee (employeeName, phaseId, hoursPerDay) VALUES ('Amanda', 1234, 5);
+INSERT INTO Phase (id, projectId, number, observation, initialDate) VALUES (0123, 2, 0, 'Requirements analysis', STR_TO_DATE('4-06-2018', '%d-%m-%Y'));
+INSERT INTO PhaseEmployee (employeeName, phaseId, percentageOfDailyHours) VALUES ('Jorge', 0123, 50);
+INSERT INTO PhaseEmployee (employeeName, phaseId, percentageOfDailyHours) VALUES ('Amanda', 0123, 90);
+INSERT INTO Phase (id, projectId, number, observation) VALUES (1234, 2, 1, 'Build the back-end');
+INSERT INTO PhaseEmployee (employeeName, phaseId, percentageOfDailyHours) VALUES ('Jorge', 1234, 50);
+INSERT INTO PhaseEmployee (employeeName, phaseId, percentageOfDailyHours) VALUES ('Amanda', 1234, 10);
 
 INSERT INTO Platform (name) VALUES ('iOS');
 INSERT INTO Platform (name) VALUES ('Android');
@@ -23,9 +24,24 @@ INSERT INTO Functionality (functionalityTag) VALUES ('Collect Requirements');
 INSERT INTO Functionality (functionalityTag) VALUES ('Build Backlog');
 
 INSERT INTO Task (id, name, phaseId, realHours, platform, functionalityTag, initialDate, hourEstimation, responsibleEmployee, realEndDate, statusPercent, statusTag)
-    VALUES (1, 'speak with client', 0123, 3, 'iOS', 'Collect Requirements', STR_TO_DATE('4-06-2018', '%d-%m-%Y'), 3, 'Jorge', STR_TO_DATE('5-06-2018', '%d-%m-%Y'), 100, 'Ok');
-INSERT INTO EmployeeTask (employeeName, taskId, hoursPerDay) VALUES ('Jorge', 1, 4);
+VALUES (1, 'speak with client', 0123, 3, 'iOS', 'Collect Requirements', STR_TO_DATE('4-06-2018', '%d-%m-%Y'), 3, 'Jorge', STR_TO_DATE('5-06-2018', '%d-%m-%Y'), 100, 'Ok');
+INSERT INTO EmployeeTask (employeeName, taskId, percentageOfDailyHours) VALUES ('Jorge', 1, 90);
 INSERT INTO Task (id, name, phaseId, realHours, platform, functionalityTag, initialDate, hourEstimation, responsibleEmployee, statusPercent, statusTag)
-    VALUES (2, 'write user histories', 0123, 5, 'iOS', 'Build Backlog', STR_TO_DATE('6-06-2018', '%d-%m-%Y'), 30, 'Jorge', 40, 'In Progress');
-INSERT INTO EmployeeTask (employeeName, taskId, hoursPerDay) VALUES ('Jorge', 2, 4);
-INSERT INTO EmployeeTask (employeeName, taskId, hoursPerDay) VALUES ('Amanda', 2, 2);
+VALUES (2, 'write user histories', 0123, 5, 'iOS', 'Build Backlog', STR_TO_DATE('6-06-2018', '%d-%m-%Y'), 30, 'Jorge', 40, 'In Progress');
+INSERT INTO EmployeeTask (employeeName, taskId, percentageOfDailyHours) VALUES ('Jorge', 2, 10);
+INSERT INTO EmployeeTask (employeeName, taskId, percentageOfDailyHours) VALUES ('Amanda', 2, 40);
+
+
+INSERT INTO EmployeeDaysOfWeek(employeeName, dayOfWeek, entryHour, entryMinutes, leaveHour, leaveMinutes) VALUES ('Jorge','Monday',9,30,11,30);
+INSERT INTO EmployeeDaysOfWeek(employeeName, dayOfWeek, entryHour, entryMinutes, leaveHour, leaveMinutes) VALUES ('Jorge','Monday',12,30,14,30);
+INSERT INTO EmployeeDaysOfWeek(employeeName, dayOfWeek, entryHour, entryMinutes, leaveHour, leaveMinutes) VALUES ('Jorge','Tuesday',9,30,18,30);
+INSERT INTO EmployeeDaysOfWeek(employeeName, dayOfWeek, entryHour, entryMinutes, leaveHour, leaveMinutes) VALUES ('Jorge','Wednesday',9,30,19,30);
+INSERT INTO EmployeeDaysOfWeek(employeeName, dayOfWeek, entryHour, entryMinutes, leaveHour, leaveMinutes) VALUES ('Jorge','Friday',9,30,19,30);
+
+INSERT INTO EmployeeDaysOfWeek(employeeName, dayOfWeek, entryHour, entryMinutes, leaveHour, leaveMinutes) VALUES ('Amanda','Monday',11,30,16,30);
+INSERT INTO EmployeeDaysOfWeek(employeeName, dayOfWeek, entryHour, entryMinutes, leaveHour, leaveMinutes) VALUES ('Amanda','Tuesday',9,30,15,30);
+INSERT INTO EmployeeDaysOfWeek(employeeName, dayOfWeek, entryHour, entryMinutes, leaveHour, leaveMinutes) VALUES ('Amanda','Wednesday',9,30,15,30);
+INSERT INTO EmployeeDaysOfWeek(employeeName, dayOfWeek, entryHour, entryMinutes, leaveHour, leaveMinutes) VALUES ('Amanda','Thursday',9,30,17,30);
+
+INSERT INTO EmployeeDaysOfWeek(employeeName, dayOfWeek, entryHour, entryMinutes, leaveHour, leaveMinutes) VALUES ('Thais','Monday',9,30,19,30);
+INSERT INTO EmployeeDaysOfWeek(employeeName, dayOfWeek, entryHour, entryMinutes, leaveHour, leaveMinutes) VALUES ('Thais','Tuesday',9,30,19,30);

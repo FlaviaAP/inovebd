@@ -1,34 +1,36 @@
 package com.i9.models;
 
-import javax.swing.text.DateFormatter;
-import java.text.DateFormat;
-import java.time.ZoneId;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Task {
     private int id;
     private String name;
     private int phaseId;
     private int realHours;
-    private Date realEndDate;
+    @DateTimeFormat(pattern = "MM-dd-yyyy")
+    private LocalDate realEndDate;
     private String platform;
     private String functionalityTag;
-    private Date initialDate;
+    @DateTimeFormat(pattern = "MM-dd-yyyy")
+    private LocalDate initialDate;
     private int hourEstimation;
     private int statusPercent;
     private String statusTag;
     private String responsibleEmployee;
 
-    private List<EmployeeHoursPerDay> employeesHoursPerDay;
-
+    private List<DailyHours> dailyHours;
+    private List<EmployeeAssignedToTask> employeesAssignedToTask;
     //these don't have at BD
-    private int totalHoursPerDay;
-    private int dayEstimation;
-    private Date endDatePrediction;
+    private LocalDate endDatePrediction;
 
+    public Task(){
+
+    }
     private static PredictionCalculator predictionCalculator = new PredictionCalculator();
 
     public int getId() {
@@ -63,11 +65,11 @@ public class Task {
         this.realHours = realHours;
     }
 
-    public Date getRealEndDate() {
+    public LocalDate getRealEndDate() {
         return realEndDate;
     }
 
-    public void setRealEndDate(Date realEndDate) {
+    public void setRealEndDate(LocalDate realEndDate) {
         this.realEndDate = realEndDate;
     }
 
@@ -87,12 +89,16 @@ public class Task {
         this.functionalityTag = functionalityTag;
     }
 
-    public Date getInitialDate() {
+    public LocalDate getInitialDate() {
         return initialDate;
     }
 
-    public void setInitialDate(Date initialDate) {
+    public void setInitialDate(LocalDate initialDate) {
         this.initialDate = initialDate;
+    }
+
+    public void setInitialDate(String initialDate) {
+        this.initialDate = LocalDate.parse(initialDate,DateTimeFormatter.ofPattern("yyyy-MM-dd"));
     }
 
     public int getHourEstimation() {
@@ -105,13 +111,13 @@ public class Task {
 
     public String getEndDatePrediction() {
         if(endDatePrediction != null)
-            return endDatePrediction.toInstant().atZone(ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern("yyyy-LL-dd"));
+            return endDatePrediction.format(DateTimeFormatter.ofPattern("MM-dd-yyyy"));
 
         return null;
     }
 
-    public void setEndDatePrediction(Date endDatePrediction) {
-        this.endDatePrediction = endDatePrediction;
+    public LocalDate getLocalDateEndDatePrediction(){
+        return endDatePrediction;
     }
 
     public int getStatusPercent() {
@@ -138,31 +144,24 @@ public class Task {
         this.responsibleEmployee = responsibleEmployee;
     }
 
-    public List<EmployeeHoursPerDay> getEmployeesHoursPerDay() {
-        return employeesHoursPerDay;
+    public List<DailyHours> getDailyHours() {
+        return dailyHours;
     }
 
-    public void setEmployeesHoursPerDay(List<EmployeeHoursPerDay> employeesHoursPerDay) {
-        this.employeesHoursPerDay = employeesHoursPerDay;
+    public void setDailyHours(List<DailyHours> dailyHours) {
+        this.dailyHours = dailyHours;
     }
 
-    public void calculateEstimations() {
-        calculateTotalHoursPerDay();
-        calculateDayEstimation();
-        calculateEndDatePrediction();
+    public void calculateEstimation() {
+
+        endDatePrediction = predictionCalculator.calculateEndDatePrediction(initialDate, dailyHours, hourEstimation);
     }
 
-    private void calculateTotalHoursPerDay() {
-        totalHoursPerDay = predictionCalculator.calculateTotalHoursPerDay(employeesHoursPerDay);
+    public List<EmployeeAssignedToTask> getEmployeesAssignedToTask() {
+        return employeesAssignedToTask;
     }
 
-
-    private void calculateDayEstimation() {
-        dayEstimation = predictionCalculator.calculateDayEstimation(hourEstimation, totalHoursPerDay);
+    public void setEmployeesAssignedToTask(List<EmployeeAssignedToTask> employeesAssignedToTask) {
+        this.employeesAssignedToTask = employeesAssignedToTask.parallelStream().filter(employeeAssignedToTask ->  employeeAssignedToTask.getDailyHoursPercentage() > 0 ).collect(Collectors.toList());
     }
-
-    private void calculateEndDatePrediction() {
-        endDatePrediction = predictionCalculator.calculateEndDatePrediction(initialDate, dayEstimation);
-    }
-
 }

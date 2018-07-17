@@ -1,35 +1,27 @@
 package com.i9.models;
 
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PredictionCalculator {
 
-    public int calculateTotalHoursPerDay(List<EmployeeHoursPerDay> employeesHoursPerDay) {
-        int totalHoursPerDay = 0;
-        for(EmployeeHoursPerDay employeeHoursPerDay: employeesHoursPerDay) {
-            totalHoursPerDay += employeeHoursPerDay.getHoursPerDay();
+    public LocalDate calculateEndDatePrediction(LocalDate initialDate, List<DailyHours> dailyHours, int hourEstimation) {
+        Double hours = (double) hourEstimation;
+        LocalDate currentDate = null;
+        if(initialDate != null && !dailyHours.isEmpty()) {
+            currentDate = initialDate;
+            while (hours > 0) {
+                String dayOfWeek =  currentDate.getDayOfWeek().toString();
+
+                List<DailyHours> theDay = dailyHours.parallelStream().filter(day -> (day.getDay().compareToIgnoreCase(dayOfWeek) == 0)).collect(Collectors.toList());
+                if(!theDay.isEmpty())
+                    hours -= theDay.get(0).getDailyWorkload();
+                currentDate = currentDate.plusDays(1);
+            }
+            currentDate = currentDate.minusDays(1);
         }
-        return totalHoursPerDay;
-    }
 
-    public int calculateDayEstimation(int hourEstimation, int hoursPerDay) {
-
-        if(hourEstimation != 0 && hoursPerDay != 0)
-             return (int) Math.ceil( hourEstimation / (double) hoursPerDay);
-
-        return 0;
-    }
-
-    public Date calculateEndDatePrediction(Date initialDate, int dayEstimation) {
-        Date endDatePrediction = null;
-        if(initialDate != null && dayEstimation != 0) {
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(initialDate);
-            calendar.add(Calendar.DATE, + dayEstimation);
-            endDatePrediction = calendar.getTime();
-        }
-        return endDatePrediction;
+        return currentDate;
     }
 }

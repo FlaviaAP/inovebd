@@ -4,12 +4,14 @@ import com.i9.daos.BaseDao;
 import com.i9.daos.EmployeeDao;
 import com.i9.daos.EmployeeHoursPerDayDao;
 import com.i9.models.Employee;
-import com.i9.models.EmployeeHoursPerDay;
+import com.i9.models.DailyHours;
+import com.i9.models.EmployeeAssignedToTask;
 import org.springframework.beans.factory.annotation.Required;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class EmployeeHoursPerDayDaoImp implements EmployeeHoursPerDayDao {
@@ -18,11 +20,11 @@ public class EmployeeHoursPerDayDaoImp implements EmployeeHoursPerDayDao {
     private EmployeeDao employeeDao;
 
     @Override
-    public List<EmployeeHoursPerDay> getEmployeesHoursPerDayByPhase(int phaseId) {
-        List<EmployeeHoursPerDay> employeesHoursPerDay = new ArrayList<>();
+    public List<DailyHours> getEmployeesHoursPerDayByTask(int taskId) {
+        List<DailyHours> employeesHoursPerDay = new ArrayList<>();
         ResultSet resultSet = null;
         try {
-            resultSet = baseDao.searchQuery("SELECT * FROM PhaseEmployee AS x WHERE x.phaseId = " + String.valueOf(phaseId) + ";");
+            resultSet = baseDao.searchQuery("SELECT * FROM EmployeeTask AS data WHERE data.taskId = " + String.valueOf(taskId) + ";");
 
             employeesHoursPerDay = buildEmployeesHoursPerDayByResultSet(resultSet);
 
@@ -38,14 +40,13 @@ public class EmployeeHoursPerDayDaoImp implements EmployeeHoursPerDayDao {
     }
 
     @Override
-    public List<EmployeeHoursPerDay> getEmployeesHoursPerDayByTask(int taskId) {
-        List<EmployeeHoursPerDay> employeesHoursPerDay = new ArrayList<>();
+    public List<EmployeeAssignedToTask> getEmployeesAssignedToTask(int taskId){
+        List<EmployeeAssignedToTask> employeesAssignedToTask = new ArrayList<>();
         ResultSet resultSet = null;
         try {
-            resultSet = baseDao.searchQuery("SELECT * FROM EmployeeTask AS x WHERE x.taskId = " + String.valueOf(taskId) + ";");
-
-            employeesHoursPerDay = buildEmployeesHoursPerDayByResultSet(resultSet);
-
+            resultSet = baseDao.searchQuery("SELECT * FROM EmployeeTask AS data WHERE data.taskId = " + String.valueOf(taskId) + ";");
+            while(resultSet.next())
+                employeesAssignedToTask.add(new EmployeeAssignedToTask(resultSet.getString("employeeName"),resultSet.getInt("percentageOfDailyHours")));
         } catch (SQLException e){
             System.out.println("Error while searching on project Table");
             e.printStackTrace();
@@ -53,47 +54,47 @@ public class EmployeeHoursPerDayDaoImp implements EmployeeHoursPerDayDao {
         finally {
             baseDao.closeQuery(resultSet);
         }
-
-        return employeesHoursPerDay;
+        return employeesAssignedToTask;
     }
 
-    private List<EmployeeHoursPerDay> buildEmployeesHoursPerDayByResultSet(ResultSet resultSet) {
-        List<EmployeeHoursPerDay> employeesHoursPerDay = new ArrayList<>();
+    private List<DailyHours> buildEmployeesHoursPerDayByResultSet(ResultSet resultSet) throws SQLException {
+        HashMap<String, DailyHours> dailyHoursMap = new HashMap<>();
+        while(resultSet.next()){
+            Employee employee = employeeDao.getEmployee(resultSet.getString("employeeName"));
 
-        try {
-            while (resultSet.next()) {
-                EmployeeHoursPerDay employeeHoursPerDay = new EmployeeHoursPerDay();
-                employeeHoursPerDay.setHoursPerDay(resultSet.getInt("hoursPerDay"));
-                Employee employee = employeeDao.getEmployee(resultSet.getString("employeeName"));
-                employeeHoursPerDay.setEmployee(employee);
+            Double hours;
+            for (DailyHours dailyHours: employee.getDailyHours()) {
+                hours = (dailyHours.getDailyWorkload() * (resultSet.getDouble("percentageOfDailyHours")/100));
 
-                employeesHoursPerDay.add(employeeHoursPerDay);
+                if(dailyHoursMap.containsKey(dailyHours.getDay())) {
+                    hours += dailyHoursMap.get(dailyHours.getDay()).getDailyWorkload();
+                }
+                dailyHours.setDailyWorkload(hours);
+
+
+                dailyHoursMap.put(dailyHours.getDay(), dailyHours);
             }
-        } catch (SQLException e){
-            System.out.println("Error while searching on project Table");
-            e.printStackTrace();
         }
-        return employeesHoursPerDay;
-
+        return new ArrayList<>(dailyHoursMap.values());
     }
 
     @Override
-    public List<EmployeeHoursPerDay> getAll() {
+    public List<DailyHours> getAll() {
         return null;
     }
 
     @Override
-    public boolean save(EmployeeHoursPerDay object) {
+    public boolean save(DailyHours object) {
         return false;
     }
 
     @Override
-    public boolean delete(EmployeeHoursPerDay object) {
+    public boolean delete(DailyHours object) {
         return false;
     }
 
     @Override
-    public boolean update(EmployeeHoursPerDay object) {
+    public boolean update(DailyHours object) {
         return false;
     }
 

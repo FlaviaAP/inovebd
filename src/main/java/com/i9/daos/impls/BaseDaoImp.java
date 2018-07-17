@@ -18,14 +18,17 @@ public class BaseDaoImp implements BaseDao {
         Connection connection = null;
         try {
             connection = createConnection();
+            Statement statement = connection.createStatement();
+            statement.execute(sql);
+            connection.commit();
 
         } catch (SQLException e) {
             System.out.println("Couldn't create the connection");
             e.printStackTrace();
         }
-        Statement statement = connection.createStatement();
-        statement.execute(sql);
-        connection.commit();
+        finally {
+            connection.close();
+        }
     }
     @Override
     public ResultSet searchQuery(String sql) throws SQLException {
