@@ -58,6 +58,7 @@ public class ProjectDetailsController {
     @RequestMapping(value="/createTask",method = RequestMethod.GET)
     public String getCreateTask(Integer phaseId, Model model){
         model.addAttribute("phaseId",phaseId);
+        model.addAttribute("projectId",phaseService.getPhase(phaseId).getProjectId());
         model.addAttribute("employees",employeeService.getEmployees());
         return "createTask";
     }

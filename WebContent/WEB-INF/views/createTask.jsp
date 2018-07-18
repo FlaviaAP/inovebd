@@ -134,9 +134,15 @@
                         <p style="margin-left: 10px;display: none;color: red" id="percentageErrorMsg${i.index}"> The percentage must be between 0 and 100</p>
                     </div>
                 </c:forEach>
-            </div><br>
+            </div>
+            <div style="display: flex">
 
             <button onclick="sendWorkers()">Create</button>
+            <form action="/project/details">
+                <input type="hidden" value="${projectId}" name="projectId">
+                <button type="submit">Cancel</button>
+            </form>
+            </div>
         </div>
 </div>
 
