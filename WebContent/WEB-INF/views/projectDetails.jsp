@@ -143,7 +143,7 @@
                             </c:when>
                             <c:otherwise>
                                 <c:if test="${phase.endDatePrediction != null}">
-                                <li> End date prediction: ${phase.localDateEndDatePrediction    .format(timeFormatter)}</li>
+                                <li> End date prediction: ${phase.localDateEndDatePrediction.format(timeFormatter)}</li>
                                 </c:if>
                                 <c:if test="${phase.endDatePrediction == null}">
                                     <li> End date prediction: Undefined</li>

@@ -52,6 +52,11 @@
         .createTaskBody{
             margin-top:50px;
         }
+
+        .label{
+            display: flex;
+            width: 200px;
+        }
     </style>
 
 </head>
@@ -82,30 +87,56 @@
 <div class="container">
         <div class="createTaskBody">
 
-        <input type="text" id="taskName" placeholder="Task Name"><br>
-        <input type="text" id="functionality" placeholder="Task Functionality"><br>
-        <select  id="platform">
-            <option value="iOS" selected="selected">iOS</option>
-            <option value="Android">Android</option>
-        </select><br>
-                <label for="responsibleFunctionary"</label>
-                <select id="responsibleFunctionary">
-                    <c:forEach items="${employees}" var="employee" >
-                        <option value="${employee.name}">${employee.name}</option>
-                    </c:forEach>
-                </select><br>
-        <input type="number" id="estimationHours" placeholder="Estimation Hours"><br>
-        <input type="date" id="initialDate" placeholder="Initial Date"><br>
-        <div id="employees">
-            <c:forEach items="${employees}" var="employee" varStatus="i">
-                <div style="display:flex;justify-content:space-between">
-                    <label for="percentage${i.index}" id='name${i.index.toString()}'  value="${employee.name}">${employee.name} </label>
-                    <input type="number" id="percentage${i.index}" name="dailyHoursPercentage" value="0" max="100" maxlength="3">
-                </div>
-            </c:forEach>
-        </div><br>
+            <div style="display: flex">
+                <p class="label">Task Name: </p>
+                <input type="text" id="taskName" placeholder="Task Name">
+                <p id="taskNameErrorMsg" style="color:red;display: none;margin-left: 10px">The task must have a name</p>
+            </div>
 
-        <button onclick="sendWorkers()">Create</button>
+            <div style="display: flex">
+                <p class="label">Functionality: </p>
+                <input type="text" id="functionality" placeholder="Task Functionality">
+                <p id="functionalityErrorMsg" style="color:red;display: none;margin-left: 10px">The task must have a functionality</p>
+            </div>
+            <div style="display: flex">
+                <p class="label">Plataform: </p>
+                <select  id="platform">
+                    <option value="iOS" selected="selected">iOS</option>
+                    <option value="Android">Android</option>
+                </select><br>
+            </div>
+            <div style="display: flex">
+            <p class="label">Responsible Employee:</p>
+            <select id="responsibleFunctionary">
+                <c:forEach items="${employees}" var="employee" >
+                    <option value="${employee.name}">${employee.name}</option>
+                </c:forEach>
+            </select>
+            </div>
+            <div style="display: flex">
+                <p class="label">Estimation Hours:</p>
+                <input type="number" min="0" id="estimationHours" placeholder="Estimation Hours">
+                <p id="numberErrorMsg" style="color:red;display: none;margin-left: 10px">The task must have a valid hours estimation</p>
+            </div>
+
+            <div style="display: flex">
+                <p class="label"> Initial Date:</p>
+                <input type="date" id="initialDate" placeholder="Initial Date">
+                <p id="initialDateErrorMsg" style="color:red;display: none;margin-left: 10px">The task must have a valid initial date</p>
+            </div>
+
+            <div id="employees">
+                <c:forEach items="${employees}" var="employee" varStatus="i">
+                    <div style="display:flex">
+                        <label style="width: 200px" for="percentage${i.index}" id='name${i.index.toString()}'  value="${employee.name}">${employee.name} will work </label>
+                        <input style="width: 50px;height: 25px" type="number" id="percentage${i.index}" name="dailyHoursPercentage" value="0" min="0" max="100" maxlength="3">
+                        <p style="margin-left: 10px">% of his/hers time on this task</p>
+                        <p style="margin-left: 10px;display: none;color: red" id="percentageErrorMsg${i.index}"> The percentage must be between 0 and 100</p>
+                    </div>
+                </c:forEach>
+            </div><br>
+
+            <button onclick="sendWorkers()">Create</button>
         </div>
 </div>
 
@@ -116,11 +147,17 @@
 
 <script>
     function sendWorkers(){
+        let hasError = false;
         let data=[]
         let numberOfEmployees = $("#employees").children().length
         for(var i=0; i < numberOfEmployees; i++){
             let name = document.getElementById("name"+i).getAttribute("value")
             let percentage= document.getElementById("percentage"+i).value
+            document.getElementById("percentageErrorMsg"+i).style.display="none"
+            if(percentage > 100 || percentage < 0){
+                hasError=true;
+                document.getElementById("percentageErrorMsg"+i).style.display="unset"
+            }
             data.push(
                 {
                     "name": name,
@@ -128,7 +165,6 @@
                 }
             )
         }
-        console.log(data)
         let task = {}
         task.name=document.getElementById("taskName").value
         task.functionalityTag=document.getElementById("functionality").value
@@ -138,16 +174,48 @@
         task.initialDate=document.getElementById("initialDate").value;
         task.hourEstimation=document.getElementById("estimationHours").value
         task.phaseId=${phaseId}
-            console.log(task)
-        $.ajax(
-            {
-                url:"/project/createTask",
-                data:JSON.stringify(task),
-                dataType:"json",
-                contentType: 'application/json',
-                type:"POST"
-            }
-        )
+
+        document.getElementById("taskNameErrorMsg").style.display="none"
+        document.getElementById("functionalityErrorMsg").style.display="none"
+        document.getElementById("numberErrorMsg").style.display="none"
+        document.getElementById("initialDateErrorMsg").style.display="none"
+
+
+        if(task.name == ""){
+            hasError= true;
+            document.getElementById("taskNameErrorMsg").style.display="contents"
+        }
+        if(task.functionalityTag == ""){
+            hasError= true;
+            document.getElementById("functionalityErrorMsg").style.display="contents"
+        }
+        if(task.hourEstimation == "" || task.hourEstimation < 0){
+            hasError=true;
+            document.getElementById("numberErrorMsg").style.display="contents"
+        }
+        if(task.initialDate == ""){
+            hasError=true;
+            document.getElementById("initialDateErrorMsg").style.display="contents"
+        }
+        if(hasError == false){
+            $.ajax(
+                {
+                    url:"/project/createTask",
+                    data:JSON.stringify(task),
+                    dataType:"json",
+                    contentType: 'application/json',
+                    type:"POST",
+                    success: x,
+                    error: function (err) {
+
+                    }
+                }
+            )
+        }
+    }
+
+    function x(data) {
+        window.location.href="/project/details?projectId=" + data;
     }
 </script>
 

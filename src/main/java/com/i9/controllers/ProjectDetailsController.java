@@ -4,6 +4,8 @@ package com.i9.controllers;
 import com.i9.models.*;
 import com.i9.services.*;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -58,11 +60,5 @@ public class ProjectDetailsController {
         model.addAttribute("phaseId",phaseId);
         model.addAttribute("employees",employeeService.getEmployees());
         return "createTask";
-    }
-
-    @RequestMapping(value="/createTask",method = RequestMethod.POST)
-    public String postCreateTask(@RequestBody(required = false) Task task, Model model){
-        taskService.saveTask(task);
-        return "redirect:/details";
     }
 }
